@@ -1,0 +1,53 @@
+.control-panel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.control-panel ul {
+	width: 100%;
+	display: flex;
+	list-style-type: none;
+	flex-direction: row;
+	justify-content: space-between;
+	gap: 50px;
+}
+
+@media only screen and (min-width: 1701px) {
+	.control-panel {
+		font-size: 18px;
+	}
+
+	.control-panel ul {
+		gap: 100px;
+	}
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+	.control-panel ul {
+		gap: 30px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.control-panel ul {
+		gap: 20px;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+	.control-panel ul {
+		flex-direction: column;
+		justify-content: center;
+		gap: 20px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.control-panel ul {
+		flex-direction: column;
+		justify-content: center;
+		gap: 10px;
+		font-size: 14px;
+	}
+}

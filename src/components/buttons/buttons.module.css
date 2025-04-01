@@ -1,0 +1,48 @@
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	gap: 20px;
+}
+
+@media only screen and (min-width: 1701px) {
+	.buttons {
+		font-size: 18px;
+		gap: 30px;
+	}
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+	.buttons {
+		gap: 10px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.buttons {
+		flex-direction: column;
+		align-items: start;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+	.buttons {
+		flex-direction: column;
+		align-items: start;
+	}
+
+	.buttons a {
+		font-size: 14px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.buttons {
+		flex-direction: column;
+		align-items: start;
+	}
+	.buttons a {
+		font-size: 14px;
+	}
+}
