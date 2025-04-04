@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import styles from './button.module.css';
 
-export const Button = ({ backgroundColor, border, children }) => {
+export const Button = ({ backgroundColor, border, children, ...props }) => {
 	const rootStyle = {
 		'--background-color': backgroundColor,
 		'--border': border,
 	};
 
 	return (
-		<button className={styles.button} style={rootStyle}>
+		<button className={styles.button} style={rootStyle} {...props}>
 			{children}
 		</button>
 	);

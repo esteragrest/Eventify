@@ -1,0 +1,59 @@
+.weekly-events-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	padding: 60px 0;
+	gap: 10px;
+}
+
+.weekly-events-container h2 {
+	font-size: 36px;
+}
+
+@media only screen and (min-width: 1701px) {
+	.weekly-events-container h2 {
+		font-size: 42px;
+	}
+
+	.weekly-events-container p {
+		font-size: 18px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.weekly-events-container {
+		text-align: center;
+	}
+
+	.weekly-events-container p {
+		width: 80%;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.weekly-events-container {
+		text-align: center;
+	}
+
+	.weekly-events-container p {
+		font-size: 14px;
+		width: 80%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.weekly-events-container {
+		text-align: center;
+	}
+
+	.weekly-events-container p {
+		font-size: 14px;
+		width: 80%;
+	}
+
+	.weekly-events-container h2 {
+		font-size: 24px;
+	}
+}

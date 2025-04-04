@@ -1,0 +1,135 @@
+.manual-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	padding: 30px;
+	gap: 20px;
+	text-align: center;
+}
+
+.manual-container h2 {
+	font-size: 36px;
+}
+
+.video-container {
+	position: relative;
+	width: 70%;
+}
+
+.video-container video {
+	width: 100%;
+	height: auto;
+	border: 1px solid #ddd;
+}
+
+.video-container video::-webkit-media-controls {
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.video-container:hover video::-webkit-media-controls {
+	opacity: 1;
+}
+
+.button {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 60px;
+	height: 60px;
+	background-color: #e8ff59;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.triangle {
+	transform: translate(4%, 0%);
+	width: 0;
+	height: 0;
+	border-left: 25px solid #c0a2e2;
+	border-bottom: 15px solid transparent;
+	border-top: 15px solid transparent;
+}
+
+.square {
+	width: 20px;
+	height: 20px;
+	background-color: #c0a2e2;
+}
+
+.video-container:hover .button {
+	display: flex;
+}
+
+@media only screen and (min-width: 1701px) {
+	.manual-container h2 {
+		font-size: 42px;
+	}
+
+	.button {
+		width: 80px;
+		height: 80px;
+	}
+
+	.triangle {
+		border-left: 30px solid #c0a2e2;
+		border-bottom: 20px solid transparent;
+		border-top: 20px solid transparent;
+	}
+
+	.square {
+		width: 25px;
+		height: 25px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.video-container {
+		width: 80%;
+	}
+}
+
+@media only screen and (min-width: 621px) and (max-width: 767px) {
+	.video-container {
+		width: 80%;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 620px) {
+	.video-container {
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.manual-container h2 {
+		font-size: 24px;
+	}
+
+	.video-container {
+		width: 90%;
+	}
+
+	.button {
+		width: 40px;
+		height: 40px;
+	}
+
+	.triangle {
+		border-left: 20px solid #c0a2e2;
+		border-bottom: 10px solid transparent;
+		border-top: 10px solid transparent;
+	}
+
+	.square {
+		width: 15px;
+		height: 15px;
+	}
+}

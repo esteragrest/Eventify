@@ -1,0 +1,56 @@
+:root {
+	--background-color: transparent;
+}
+
+.capability-container {
+	display: flex;
+	justify-content: start;
+	align-items: start;
+	flex-direction: column;
+	background-color: var(--background-color);
+	width: 100%;
+	height: 100%;
+	padding: 30px 24px;
+	gap: 7px;
+}
+
+.capability-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+@media only screen and (min-width: 1701px) {
+	.capability-title h3 {
+		font-size: 32px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.capability-container {
+		padding: 20px 18px;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.capability-container {
+		padding: 20px 18px;
+		font-size: 14px;
+	}
+
+	.capability-title h3 {
+		font-size: 18px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.capability-container {
+		padding: 20px 18px;
+		font-size: 14px;
+	}
+
+	.capability-title h3 {
+		font-size: 18px;
+	}
+}

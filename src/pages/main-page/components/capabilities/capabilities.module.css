@@ -1,0 +1,82 @@
+.capabilities-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	padding: 60px 40px;
+}
+
+.capabilities-container h2 {
+	font-size: 36px;
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+.capabilities {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-auto-rows: 250px;
+	justify-items: center;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	width: 100%;
+}
+
+@media only screen and (min-width: 1701px) {
+	.capabilities-container h2 {
+		font-size: 42px;
+	}
+	.capabilities {
+		font-size: 18px;
+	}
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+	.capabilities {
+		width: 80%;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.capabilities {
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-rows: 200px;
+		width: 80%;
+	}
+}
+
+@media only screen and (min-width: 621px) and (max-width: 767px) {
+	.capabilities {
+		grid-template-columns: repeat(2, 1fr);
+		width: 90%;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 620px) {
+	.capabilities {
+		grid-template-columns: repeat(2, 1fr);
+		grid-auto-rows: 250px;
+		width: 80%;
+		gap: 10px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.capabilities-container {
+		padding: 40px 20px;
+	}
+
+	.capabilities-container h2 {
+		font-size: 24px;
+
+	}
+
+	.capabilities {
+		grid-template-columns: repeat(1, 1fr);
+		grid-auto-rows: 200px;
+		width: 90%;
+	}
+}
