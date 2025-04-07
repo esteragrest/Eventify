@@ -1,0 +1,31 @@
+.background-banner-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: auto;
+	height: 100%;
+}
+
+.background-banner-container > img {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.background-banner-container {
+		width: 35%;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.background-banner-container {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.background-banner-container {
+		display: none;
+	}
+}

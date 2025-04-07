@@ -1,0 +1,35 @@
+.registration-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	padding: 50px 0;
+}
+
+.mini-banner {
+	display: none;
+	width: 100%;
+	height: auto;
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.registration-container {
+		flex-direction: column;
+	}
+
+	.mini-banner {
+		display: flex;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.registration-container {
+		flex-direction: column;
+	}
+
+	.mini-banner {
+		display: flex;
+	}
+}

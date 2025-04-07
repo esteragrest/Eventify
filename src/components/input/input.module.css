@@ -1,9 +1,16 @@
+:root {
+	--width: 400px;
+}
+
 .input {
 	display: flex;
+	width: var(--width);
 	height: 35px;
 	border: 2px solid rgb(192, 162, 226);
 	background-color: transparent;
 	padding: 8px 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .input:hover {
@@ -15,4 +22,28 @@
 	background-color: #fff;
 	outline: none;
 	border: 2px solid rgb(192, 162, 226);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	.input {
+		padding: 4px;
+	}
+
+	input[name='reg_email'] {
+		width: 100%;
+	}
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.input {
+		padding: 4px;
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.input {
+		padding: 4px;
+		width: 90%;
+	}
 }

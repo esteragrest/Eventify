@@ -6,10 +6,10 @@ export const Buttons = () => {
 	return (
 		<div className={styles.buttons}>
 			<Button backgroundColor="#C0A2E2">
-				<Link to={'/register'}>Зарегистрироваться</Link>
+				<Link to={'/auth/register'}>Зарегистрироваться</Link>
 			</Button>
 			<Button border="2px solid #C0A2E2">
-				<Link to={'/login'}>Войти</Link>
+				<Link to={'/auth/login'}>Войти</Link>
 			</Button>
 		</div>
 	);

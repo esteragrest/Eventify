@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
 import styles from './input.module.css';
 
-export const Input = ({ type, name, placeholder, width = '400px', ...props }) => {
+export const Input = ({ type, name, placeholder, width, ...props }) => {
+	const rootStyle = {
+		'--width': width,
+	};
 	return (
 		<input
 			className={styles.input}
-			style={{ width: width }}
+			style={rootStyle}
 			type={type}
 			name={name}
 			placeholder={placeholder}

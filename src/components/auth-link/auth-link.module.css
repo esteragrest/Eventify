@@ -1,0 +1,21 @@
+.link-text {
+	color: #26262896;
+	text-align: center;
+}
+
+.link-text .link {
+	color: #262628;
+	text-decoration: underline;
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+	.link-text {
+		font-size: 14px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.link-text {
+		font-size: 14px;
+	}
+}
