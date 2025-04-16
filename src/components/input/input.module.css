@@ -29,7 +29,9 @@
 		padding: 4px;
 	}
 
-	input[name='reg_email'] {
+	input[name='reg_email'],
+	input[name='auth_email'],
+	input[name='auth_password'] {
 		width: 100%;
 	}
 }
