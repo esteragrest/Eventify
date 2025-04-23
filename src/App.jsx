@@ -1,9 +1,25 @@
 import { Header } from './components';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { MainPage, Registration } from './pages';
+import { useDispatch } from 'react-redux';
+import { useLayoutEffect } from 'react';
+import { setUser } from './actions';
 
 export const App = () => {
 	const location = useLocation();
+	const dispath = useDispatch()
+
+	useLayoutEffect(() => {
+		const currentUserDataJSON = sessionStorage.getItem('userData');
+
+		if (!currentUserDataJSON) {
+			return;
+		}
+
+		const currentUserData = JSON.parse(currentUserDataJSON);
+
+		dispath(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }));
+	}, [dispath]);
 
 	const showHeader =
 		location.pathname !== '/register' && location.pathname !== '/login';

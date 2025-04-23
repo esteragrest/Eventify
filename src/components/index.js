@@ -1,7 +1,7 @@
 export * from './header/Header';
 export * from './input/Input';
 export * from './button/Button';
-export * from './buttons/Buttons';
+export * from './buttons/AuthButtons';
 export * from './events-list/EventsList';
 export * from './background-banner/BackgroundBanner';
 export * from './form-container/FormContainer';
@@ -9,3 +9,4 @@ export * from './title-form/TitleForm';
 export * from './auth-link/AuthLink';
 export * from './form-row/FormRow';
 export * from './form/Form';
+export * from './error-message/ErrorMessage'

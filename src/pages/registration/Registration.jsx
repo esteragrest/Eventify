@@ -3,6 +3,7 @@ import {
 	AuthLink,
 	BackgroundBanner,
 	Button,
+	ErrorMessage,
 	Form,
 	FormContainer,
 	FormRow,
@@ -14,6 +15,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import styles from './registration.module.css';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../actions';
+import { useNavigate } from 'react-router-dom';
 
 const registerFormSchema = yup.object().shape({
 	firstName: yup.string()
@@ -22,8 +26,7 @@ const registerFormSchema = yup.object().shape({
 	  .min(2, 'Имя должно содержать минимум 2 символа')
 	  .max(20, 'Имя может содержать максимум 20 символов'),
 
-	lastName: yup.string()
-	  .required('Заполните фамилию')
+	  lastName: yup.string()
 	  .matches(/^[А-Яа-яЁёA-Za-z]+$/, 'Фамилия может содержать только русские или латинские буквы')
 	  .min(2, 'Фамилия должна содержать минимум 2 символа')
 	  .max(20, 'Фамилия может содержать максимум 20 символов'),
@@ -45,6 +48,9 @@ const registerFormSchema = yup.object().shape({
 
 export const Registration = () => {
 	const [serverError, setServerError] = useState('')
+	const dispath = useDispatch()
+	const navigate = useNavigate()
+
 	const {
 		register,
 		handleSubmit,
@@ -61,7 +67,7 @@ export const Registration = () => {
 	const onSubmit = ({ firstName, lastName, email, password }) => {
 		const newUser = {
 			first_name: firstName,
-			last_name: lastName,
+			last_name: lastName || null,
 			email,
 			password,
 		}
@@ -69,6 +75,10 @@ export const Registration = () => {
 			if (error) {
 				setServerError(`Ошибка запроса: ${error}`)
 			}
+
+			dispath(setUser(user))
+			sessionStorage.setItem('userData', JSON.stringify(user));
+			navigate('/')
 		})
 	}
 
@@ -126,7 +136,7 @@ export const Registration = () => {
 							{...register('confirmPassword', { onChange: () => setServerError('')})}
 						/>
 					</FormRow>
-					{errorMessage && <p>{errorMessage}</p>}
+					{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 					<Button backgroundColor="#C0A2E2" type='submit' disabled={!!formError}>Зарегистрироваться</Button>
 				</Form>
 			</FormContainer>
