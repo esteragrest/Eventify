@@ -6,7 +6,7 @@ export const App = () => {
 	const location = useLocation();
 
 	const showHeader =
-		location.pathname !== '/auth/register' && location.pathname !== '/auth/login';
+		location.pathname !== '/register' && location.pathname !== '/login';
 
 	return (
 		<>
@@ -16,8 +16,8 @@ export const App = () => {
 				<Route path="/events" element={<div>Мероприятия</div>} />
 				<Route path="/profile" element={<div>Профиль</div>} />
 				<Route path="/events/:id" element={<div>Одно мероприятие</div>} />
-				<Route path="/auth/register" element={<Registration />} />
-				<Route path="/auth/login" element={<div>Вход</div>} />
+				<Route path="/register" element={<Registration />} />
+				<Route path="/login" element={<div>Вход</div>} />
 				<Route path="*" element={<div>Error 404</div>} />
 			</Routes>
 		</>
