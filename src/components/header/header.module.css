@@ -16,6 +16,19 @@
 
 .buttons {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.buttons img {
+	width: 30px;
+	height: auto;
+}
+
+.func-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .burgerMenu {

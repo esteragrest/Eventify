@@ -1,0 +1,11 @@
+.error-container {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #FFE2E2;
+	color: #A10000;
+	text-align: center;
+	padding: 12px;
+}
