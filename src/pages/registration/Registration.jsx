@@ -100,7 +100,7 @@ export const Registration = () => {
 				<AuthLink
 					text="Уже есть аккаунт?"
 					linkText="Войдите в него!"
-					to="/auth/login"
+					to="/login"
 				/>
 				<Form onSubmit={handleSubmit(onSubmit)}>
 					<FormRow>

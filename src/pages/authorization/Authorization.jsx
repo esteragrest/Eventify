@@ -71,7 +71,7 @@ export const Authorization = () => {
 				<AuthLink
 					text="Ещё нет аккаунта?"
 					linkText="Зарегистрируйтесь!"
-					to="/auth/register"
+					to="/register"
 				/>
 				<Form onSubmit={handleSubmit(onSubmit)}>
 					<Input type="email" name="auth_email" placeholder="Введите email" {...register('email', { onChange: () => setServerError('') })}/>

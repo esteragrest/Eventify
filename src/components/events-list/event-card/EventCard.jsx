@@ -5,17 +5,17 @@ import styles from './event-card.module.css';
 
 export const EventsCard = ({
 	eventId,
-	name,
+	title,
 	organizer,
 	eventDate,
 	description,
-	photos,
+	photo,
 }) => {
 	return (
 		<div className={styles['event-card-container']}>
 			<div className={styles['event-card-info']}>
-				<img src={photos} alt={name} />
-				<h3>{name}</h3>
+				<img src={photo} alt={title} />
+				<h3>{title}</h3>
 				<p>{eventDate}</p>
 				<p>{organizer}</p>
 				<p>{description}</p>
@@ -30,10 +30,10 @@ export const EventsCard = ({
 };
 
 EventsCard.propTypes = {
-	eventId: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
+	eventId: PropTypes.number.isRequired,
+	title: PropTypes.string.isRequired,
 	organizer: PropTypes.string.isRequired,
 	eventDate: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
-	photos: PropTypes.string.isRequired,
+	photo: PropTypes.string.isRequired,
 };
