@@ -1,0 +1,9 @@
+.event-container {
+	display: flex;
+	justify-content: start;
+	align-items: start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	padding: 40px 90px;
+}
