@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom'
-import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm } from './components';
+import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm, ListOfParticipants } from './components';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
@@ -64,6 +64,7 @@ export const Event = () => {
 						{isAuth && <EventRegistrationForm />}
 						</div>
 					</div>
+					<ListOfParticipants />
 				</>
 			)}
 		</div>

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { EventOptionsItem } from '../event-options-item/EventOptionsItem';
+import { OptionItem } from '../../../../../components/option-item/OptionItem';
 import styles from './event-options.module.css';
 
 export const EventOptions = ({ options }) => {
     return (
         <div className={styles['event-options-container']}>
             {options.map(({ optionName, description }, index) => (
-                <EventOptionsItem key={index} optionName={optionName} description={description} />
+                <OptionItem key={index} optionName={optionName} description={description} />
             ))}
         </div>
     );

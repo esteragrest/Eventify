@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
-import styles from './event-options-item.module.css'
+import styles from './option-item.module.css'
 
-export const EventOptionsItem = ({ optionName, description }) => {
+export const OptionItem = ({ optionName, description }) => {
 	return (
-		<div>
+		<div className={styles['option-item-container']}>
 			<p className={styles['option-name']}>{optionName}</p>
 			<p className={styles.description}>{description}</p>
 		</div>
 	)
 }
 
-EventOptionsItem.propTypes = {
+OptionItem.propTypes = {
 	optionName: PropTypes.string.isRequired,
 	description: PropTypes.oneOfType([
 		PropTypes.string,

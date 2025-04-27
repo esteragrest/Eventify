@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectOrganizerId, selectUserId, selectUserRole } from "../../../../../selectors"
-import { Button, ContentOverlay } from "../../../../../components"
+import { Button, ContentOverlay, UserMainInfo } from "../../../../../components"
 import { removeCommentAsync } from "../../../../../actions/remove-comment-async"
 import { ROLE } from "../../../../../constans"
 import PropTypes from "prop-types"
@@ -37,16 +37,12 @@ export const EventCommentItem = (
 
 	return (
 		<div className={styles['comment-container']}>
-			<div className={styles['commentator-info']}>
-				<img src={commentatorPhoto ? commentatorPhoto : '/public/img/no-photo-1.jpg'} alt={`${commentatorFirstName} ${commentatorLastName}`} />
-				<div className={styles['commentator-details']}>
-					<p className={styles['commentator-name']}>{commentatorFirstName} {commentatorLastName}</p>
-					{organizerId === commentatorId && <ContentOverlay><p className={styles.organizer}>Организатор</p></ContentOverlay>}
-    			</div>
-			</div>
+			<UserMainInfo firstName={commentatorFirstName} lastName={commentatorLastName} photo={commentatorPhoto}>
+				{organizerId === commentatorId && <ContentOverlay><p className={styles.organizer}>Организатор</p></ContentOverlay>}
+			</UserMainInfo>
 			<p>{content}</p>
 			<div className={styles['control-panel']}>
-				{isOrganizer && <Button onClick={() => onReply(id, `${commentatorFirstName} ${commentatorLastName}`)}>Ответить</Button> }
+				{isOrganizer && <Button onClick={() => onReply(id, `${commentatorFirstName} ${commentatorLastName || ''}`)}>Ответить</Button> }
 				{isCommentOwnerOrAdmin &&
 					<>
 						<Button onClick={ () => onDeleteComment(id) }>Удалить</Button>
