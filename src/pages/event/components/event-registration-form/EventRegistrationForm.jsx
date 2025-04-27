@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectEventId, selectUserId } from '../../../../selectors'
 import styles from './event-registration-form.module.css'
+import { addRegistrationAsync } from '../../../../actions'
 
 const eventRegistrationFormSchema = yup.object().shape({
 	firstName: firstNameSchema,
@@ -54,6 +55,8 @@ export const EventRegistrationForm = () => {
 			phone,
 			participants_count: participants,
 		}
+
+		dispatch(addRegistrationAsync(newRegistgration))
 
 	}
 
