@@ -10,7 +10,7 @@ import {
 	Input,
 	TitleForm,
 } from '../../components';
-import { request } from '../../utils';
+import { request, firstNameSchema, lastNameSchema, emailSchema } from '../../utils';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -20,26 +20,13 @@ import { setUser } from '../../actions';
 import { useNavigate } from 'react-router-dom';
 
 const registerFormSchema = yup.object().shape({
-	firstName: yup.string()
-	  .required('Заполните имя пользователя')
-	  .matches(/^[А-Яа-яЁёA-Za-z]+$/, 'Имя может содержать только русские или латинские буквы')
-	  .min(2, 'Имя должно содержать минимум 2 символа')
-	  .max(20, 'Имя может содержать максимум 20 символов'),
-
-	  lastName: yup.string()
-	  .matches(/^[А-Яа-яЁёA-Za-z]+$/, 'Фамилия может содержать только русские или латинские буквы')
-	  .min(2, 'Фамилия должна содержать минимум 2 символа')
-	  .max(20, 'Фамилия может содержать максимум 20 символов'),
-
-	email: yup.string()
-	  .required('Заполните email')
-	  .email('Введите корректный email'),
-
+	firstName: firstNameSchema,
+	lastName: lastNameSchema,
+	email: emailSchema,
 	password: yup.string()
 	  .required('Введите пароль')
 	  .min(6, 'Пароль должен быть не менее 6 символов')
 	  .max(32, 'Пароль должен быть не более 32 символов'),
-
 	confirmPassword: yup.string()
 	  .required('Повторите пароль')
 	  .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
@@ -119,7 +106,7 @@ export const Registration = () => {
 							{...register("lastName", { onChange: () => setServerError('')})}
 						/>
 					</FormRow>
-					<Input type="email" name="reg_email" placeholder="Введите email" {...register("email")}/>
+					<Input type="email" name="reg_email" placeholder="Введите email" {...register("email", { onChange: () => setServerError('')})}/>
 					<FormRow>
 						<Input
 							type="password"

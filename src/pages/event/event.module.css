@@ -5,5 +5,23 @@
 	flex-direction: column;
 	width: 100%;
 	height: auto;
-	padding: 40px 90px;
+	padding: 40px 120px;
+}
+
+.event-overview {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	flex-direction: row;
+	width: 100%;
+	height: auto;
+}
+
+.event-interactive-area {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	flex-direction: column;
+	width: 50%;
+	height: auto;
 }

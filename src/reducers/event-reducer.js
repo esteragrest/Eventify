@@ -29,6 +29,26 @@ export const eventReducer = (state = initialEventState, action) => {
 		case ACTION_TYPE.RESET_EVENT_DATA: {
 			return initialEventState
 		}
+		case ACTION_TYPE.ADD_COMMENT: {
+			return {
+				...state,
+				comments: [ action.payload, ...state.comments]
+			}
+		}
+		case ACTION_TYPE.REMOVE_COMMENT: {
+			return {
+				...state,
+				comments: state.comments.filter(comment => comment.id !== action.payload && comment.parentId !== action.payload)
+			}
+		}
+		case ACTION_TYPE.UPDATE_COMMENT: {
+			return {
+				...state,
+				comments: state.comments.map(comment =>
+					comment.id === action.payload.id ? action.payload : comment
+				)
+			}
+		}
 		default:
 			return state
 	}

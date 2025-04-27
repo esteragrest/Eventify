@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../button/Button';
 import PropTypes from 'prop-types';
 import styles from './event-card.module.css';
+import { ContentOverlay } from '../../content-overlay/ContentOverlay';
 
 export const EventsCard = ({
 	eventId,
@@ -16,7 +17,7 @@ export const EventsCard = ({
 			<div className={styles['event-card-info']}>
 				<img src={photo} alt={title} />
 				<h3>{title}</h3>
-				<p>{eventDate}</p>
+				<ContentOverlay>{eventDate}</ContentOverlay>
 				<p>{organizer}</p>
 				<p>{description}</p>
 			</div>

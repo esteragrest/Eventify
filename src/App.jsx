@@ -32,6 +32,7 @@ export const App = () => {
 				<Route path="/events" element={<div>Мероприятия</div>} />
 				<Route path="/profile" element={<div>Профиль</div>} />
 				<Route path="/events/:eventId" element={<Event />} />
+				<Route path="/event/edit/:eventId" element={<div>Редактирование мероприятия</div>} />
 				<Route path="/register" element={<Registration />} />
 				<Route path="/login" element={<Authorization />} />
 				<Route path="*" element={<div>Error 404</div>} />

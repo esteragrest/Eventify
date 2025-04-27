@@ -1,0 +1,17 @@
+.event-form-container {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	flex-direction: column;
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+}
+
+.event-registgration-form {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+	width: 65.5%;
+}

@@ -1,9 +1,10 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom'
-import { EventContent } from './components';
+import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm } from './components';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEvent } from '../../selectors'
+import { selectEvent, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
+import { ROLE } from '../../constans';
 import styles from './event.module.css'
 
 
@@ -12,6 +13,9 @@ export const Event = () => {
 	const location = useLocation()
 	const [error, setError] = useState('')
 	const event = useSelector(selectEvent)
+	const userRoleId = useSelector(selectUserRole)
+	const [parentId, setParentId] = useState(null)
+	const [commentatorName, setCommentatorName] = useState('')
 	const dispatch = useDispatch()
 
 	useLayoutEffect(() => {
@@ -34,15 +38,36 @@ export const Event = () => {
 		})
     }, [params, location, dispatch]);
 
+	const handleReply = (id, commentatorName) => {
+		setParentId(id)
+		setCommentatorName(commentatorName)
+	}
+
+	const isAuth = userRoleId !== ROLE.GUEST
 
 	return (
 		<div className={styles['event-container']}>
 			{error ? (
 				<div>{error}</div>
 			) : (
-				<EventContent event={event} />
+				<>
+					<EventHeader event={event} />
+					<div className={styles['event-overview']}>
+						<EventContent event={event} />
+						<div className={styles['event-interactive-area']}>
+						{isAuth && (
+							<>
+								<CommentsForm parentId={parentId} commentatorName={commentatorName} />
+							</>
+						)}
+						<EventComments comments={event.comments} onReply={handleReply} />
+						{isAuth && <EventRegistrationForm />}
+						</div>
+					</div>
+				</>
 			)}
 		</div>
 	);
+
 
 }

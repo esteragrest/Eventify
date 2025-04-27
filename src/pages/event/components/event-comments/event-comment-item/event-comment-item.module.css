@@ -1,0 +1,73 @@
+.comment-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: column;
+    background-color: #ffffff7c;
+    border: 1.5px solid #C0A2E2;
+    padding: 8px;
+    gap: 10px;
+    position: relative;
+}
+
+.commentator-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 5px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.commentator-info img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.commentator-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.commentator-name {
+    font-weight: bold;
+}
+
+.organizer {
+    font-size: 12px;
+}
+
+
+.control-panel {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.control-panel button {
+	font-size: 14px;
+	opacity: 0.5;
+}
+
+.control-panel button:hover {
+	opacity: 1;
+}
+
+.comment-container:hover .control-panel {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -10,3 +10,4 @@ export * from './auth-link/AuthLink';
 export * from './form-row/FormRow';
 export * from './form/Form';
 export * from './error-message/ErrorMessage'
+export * from './content-overlay/ContentOverlay'

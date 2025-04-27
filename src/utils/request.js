@@ -1,5 +1,5 @@
-export const request = (url, method, data) =>
-	 fetch(url,{
+export const request = async (url, method, data) =>
+	 await fetch(url,{
 		headers: {
 			'content-type': "application/json" //для загрузки фото и мероприятий менять на форм-дата, т.е. сделать проверку
 		},

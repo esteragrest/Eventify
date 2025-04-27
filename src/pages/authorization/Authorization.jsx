@@ -15,13 +15,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styles from './authorization.module.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { request } from '../../utils';
+import { request, emailSchema } from '../../utils';
 import { setUser } from '../../actions';
 
 const loginFormSchema = yup.object().shape({
-	email: yup.string()
-		.required('Заполните email')
-		.email('Введите корректный email'),
+	email: emailSchema,
 	password: yup.string()
 		.required('Введите пароль')
 		.min(6, 'Пароль должен быть не менее 6 символов')
