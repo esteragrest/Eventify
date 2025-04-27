@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom'
 import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm, ListOfParticipants } from './components';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEvent, selectUserRole } from '../../selectors'
+import { selectEvent, selectUserId, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
 import { ROLE } from '../../constans';
 import styles from './event.module.css'
@@ -14,6 +14,7 @@ export const Event = () => {
 	const [error, setError] = useState('')
 	const event = useSelector(selectEvent)
 	const userRoleId = useSelector(selectUserRole)
+	const userId = useSelector(selectUserId)
 	const [parentId, setParentId] = useState(null)
 	const [commentatorName, setCommentatorName] = useState('')
 	const dispatch = useDispatch()
@@ -44,6 +45,7 @@ export const Event = () => {
 	}
 
 	const isAuth = userRoleId !== ROLE.GUEST
+	const isOrganizer = userId === event.organizerId
 
 	return (
 		<div className={styles['event-container']}>
@@ -61,10 +63,11 @@ export const Event = () => {
 							</>
 						)}
 						<EventComments comments={event.comments} onReply={handleReply} />
-						{isAuth && <EventRegistrationForm />}
+						{isAuth && !isOrganizer && <EventRegistrationForm />}
 						</div>
 					</div>
-					<ListOfParticipants />
+					{isOrganizer && <ListOfParticipants />}
+
 				</>
 			)}
 		</div>
