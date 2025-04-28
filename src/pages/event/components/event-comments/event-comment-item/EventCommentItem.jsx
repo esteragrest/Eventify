@@ -5,6 +5,7 @@ import { removeCommentAsync } from "../../../../../actions/remove-comment-async"
 import { ROLE } from "../../../../../constans"
 import PropTypes from "prop-types"
 import styles  from './event-comment-item.module.css'
+import { CLOSE_MODAL, openModal } from "../../../../../actions"
 
 export const EventCommentItem = (
 	{
@@ -26,8 +27,26 @@ export const EventCommentItem = (
 	const dispatch = useDispatch()
 
 	const onDeleteComment = (commentId) => {
-		dispatch(removeCommentAsync(commentId))
-		onReply(null, '')
+		const modalData = {
+			image: '/public/img/delete.png',
+			title: 'Вы уверены, что хотите удалить этот вопрос?',
+			text: 'После удаления вопрос не будет отображаться в общем списке и Вы не сможете на него ответить.',
+			children: (
+				<>
+					<Button backgroundColor='#E0C9FF' onClick={() => dispatch(CLOSE_MODAL)}>
+						Отмена
+					</Button>
+					<Button backgroundColor='#C0A2E2' onClick={() => {
+						dispatch(removeCommentAsync(commentId));
+						dispatch(CLOSE_MODAL);
+						onReply(null, '');
+					}}>
+						Удалить
+					</Button>
+				</>
+			)
+		}
+		dispatch(openModal(modalData))
 	}
 
 	// const onEditComment = (commentId) => {}

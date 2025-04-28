@@ -12,3 +12,4 @@ export * from './form/Form';
 export * from './error-message/ErrorMessage'
 export * from './content-overlay/ContentOverlay'
 export * from './user-main-info/UserMainInfo'
+export * from './modal/Modal'

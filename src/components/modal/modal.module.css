@@ -1,0 +1,96 @@
+.modal-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	z-index: 20;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.owerlay {
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.7);
+	width: 100%;
+	height: 100%;
+}
+
+.modal-content {
+	position: relative;
+	width: 60%;
+	height: 60vh;
+	margin: 0 auto;
+	z-index: 30;
+	top: 50%;
+	transform: translate(0, -100%);
+	background-color: #fff;
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.modal-banner {
+	width: 100%;
+	height: 60%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	background-color: #E8FF59;
+}
+
+.modal-banner img {
+	position: relative;
+	bottom: 0;
+	width: 300px;
+	height: auto;
+	opacity: 0;
+	animation: appearContent 1s ease-in-out forwards;
+}
+
+.modal-info {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 15px;
+	padding: 20px;
+	opacity: 0;
+	animation: appearContent 1s ease-in-out forwards;
+}
+
+.modal-info h3 {
+	font-size: 26px;
+}
+
+@keyframes appearContent {
+	0% {
+	  opacity: 0;
+	  transform: scale(0.8);
+	}
+	100% {
+	  opacity: 1;
+	  transform: scale(1);
+	}
+}
+
+.close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 30px;
+	height: auto;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.special-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	gap: 20px;
+}

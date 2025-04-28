@@ -1,4 +1,4 @@
-import { Header } from './components';
+import { Header, Modal } from './components';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { Authorization, Event, MainPage, Registration } from './pages';
 import { useDispatch } from 'react-redux';
@@ -37,6 +37,7 @@ export const App = () => {
 				<Route path="/login" element={<Authorization />} />
 				<Route path="*" element={<div>Error 404</div>} />
 			</Routes>
+			<Modal />
 		</>
 	);
 };
