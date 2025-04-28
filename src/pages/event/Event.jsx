@@ -53,7 +53,7 @@ export const Event = () => {
 				<div>{error}</div>
 			) : (
 				<>
-					<EventHeader event={event} />
+					<EventHeader event={event} isOrganizer={isOrganizer} />
 					<div className={styles['event-overview']}>
 						<EventContent event={event} />
 						<div className={styles['event-interactive-area']}>
