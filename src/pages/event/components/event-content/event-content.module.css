@@ -3,7 +3,7 @@
 	justify-content: start;
 	align-items: start;
 	flex-direction: column;
-	width: 55%;
+	width: 50%;
 	height: auto;
 	gap: 15px;
 }
@@ -13,4 +13,9 @@
 	height: 350px;
 	object-fit: cover;
 	object-position: center;
+}
+
+
+.event-content-container p {
+	max-width: 85%;
 }

@@ -18,3 +18,12 @@
 	width: 100%;
 	padding-bottom: 70px;
 }
+
+.events-filter {
+	display: flex;
+	justify-content: start;
+	align-self: center;
+	flex-direction: row;
+	width: 100%;
+	height: 90%;
+}
