@@ -1,7 +1,7 @@
 import { request } from "../utils"
 import { openModal } from "./open-modal"
 
-export const addRegistrationAsync = (registrationData) => (dispatch) => {
+export const addRegistrationAsync = (registrationData, reset) => (dispatch) => {
 	request('/api/registrations', 'POST', registrationData)
 		.then((res) => {
 			if(res.error) {
@@ -12,11 +12,12 @@ export const addRegistrationAsync = (registrationData) => (dispatch) => {
 				}))
 				return res.error
 			}
-			
+
 			dispatch(openModal({
 				image: '/public/img/success.png',
 				title: 'Вы успешно зарегистрировались на мероприятие!',
 				text: 'Вы можете вернуть к информации о мероприятии или найти что-то ещё.'
 			}))
+			reset()
 		})
 }

@@ -33,6 +33,7 @@ export const EventRegistrationForm = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors }
 	} = useForm({
 		defaultValues: {
@@ -56,7 +57,7 @@ export const EventRegistrationForm = () => {
 			participants_count: participants,
 		}
 
-		dispatch(addRegistrationAsync(newRegistgration))
+		dispatch(addRegistrationAsync(newRegistgration, reset))
 
 	}
 

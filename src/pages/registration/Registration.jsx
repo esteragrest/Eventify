@@ -41,6 +41,7 @@ export const Registration = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors }
 		} = useForm({ defaultValues: {
 		firstName: '',
@@ -66,6 +67,7 @@ export const Registration = () => {
 			dispath(setUser(user))
 			sessionStorage.setItem('userData', JSON.stringify(user));
 			navigate('/')
+			reset()
 		})
 	}
 

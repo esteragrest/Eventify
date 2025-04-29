@@ -34,6 +34,7 @@ export const Authorization = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: {errors}
 	 } = useForm({
 		defaultValues: {
@@ -54,6 +55,7 @@ export const Authorization = () => {
 			dispatch(setUser(user))
 			sessionStorage.setItem('userData', JSON.stringify(user))
 			navigate('/')
+			reset()
 		})
 	}
 
