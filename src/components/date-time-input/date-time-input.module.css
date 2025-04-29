@@ -1,0 +1,23 @@
+.date-time-input-container {
+    background-color: #E8FF59;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: black;
+	
+}
+
+.date-time-input-container input[type="date"],
+.date-time-input-container input[type="time"] {
+    border: none;
+    background: none;
+    font-size: 12px;
+    color: black;
+    cursor: pointer;
+    outline: none;
+}

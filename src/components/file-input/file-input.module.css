@@ -1,0 +1,28 @@
+.file-input-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+}
+
+.file-input-container label {
+	width: 300px;
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border: 1px solid #000;
+}
+
+.file-input-container img {
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+	object-position: center;
+}
+
+.file-input-container input[type='file'] {
+	display: none;
+}

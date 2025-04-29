@@ -1,7 +1,7 @@
 export * from './header/Header';
 export * from './input/Input';
 export * from './button/Button';
-export * from './buttons/AuthButtons';
+export * from './auth-buttons/AuthButtons';
 export * from './events-list/EventsList';
 export * from './background-banner/BackgroundBanner';
 export * from './form-container/FormContainer';
@@ -13,3 +13,6 @@ export * from './error-message/ErrorMessage'
 export * from './content-overlay/ContentOverlay'
 export * from './user-main-info/UserMainInfo'
 export * from './modal/Modal'
+export * from './textarea/Textarea'
+export * from './date-time-input/DateTimeInput'
+export * from './file-input/FileInput'

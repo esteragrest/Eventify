@@ -14,7 +14,7 @@ export const Banner = () => {
 					незабываемые моменты прямо сейчас!
 				</p>
 				<Button backgroundColor="#E8FF59">
-					<Link to="/create">Создать мероприятие</Link>
+					<Link to="/event/create">Создать мероприятие</Link>
 				</Button>
 			</div>
 		</div>

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react"
-import { Button } from "../../../../components"
+import { Button, Textarea } from "../../../../components"
 import { useDispatch, useSelector } from "react-redux"
 import { selectEventId, selectUserId } from "../../../../selectors"
 import { addCommentAsync } from "../../../../actions"
@@ -30,7 +30,7 @@ export const CommentsForm = ({ parentId, commentatorName }) => {
 		<div className={styles['comments-form-container']}>
 			<h4>Задайте вопрос организатору:</h4>
 			<div className={styles['comments-form']}>
-				<textarea ref={textareaRef} name="comment" id="comment" placeholder="Оставьте свой вопрос..." value={newComment} onChange={({ target }) => setNewComment(target.value)}></textarea>
+				<Textarea textareaRef={textareaRef} name="comment" id="comment" placeholder="Оставьте свой вопрос..." value={newComment} onChange={({ target }) => setNewComment(target.value)} />
 				<Button onClick={() => onNewCommentAdd(userId, eventId, newComment)}><img src="/public/img/send-a-comment.png" alt="send-a-comment"/></Button>
 			</div>
 		</div>

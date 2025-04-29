@@ -1,5 +1,5 @@
 import { NavBar } from '../../../navbar/NavBar';
-import { AuthButtons } from '../../../buttons/AuthButtons';
+import { AuthButtons } from '../../../auth-buttons/AuthButtons';
 import { Button } from '../../../button/Button';
 import { Link } from 'react-router-dom';
 import { ROLE } from '../../../../constans';
@@ -23,7 +23,7 @@ export const Menu = ({ toggleMenu }) => {
 			{userRoleId === ROLE.GUEST ? <AuthButtons /> :
 				<div className={styles.buttons}>
 					<Button backgroundColor="#E8FF59">
-						<Link to={'/create'}>Создать мероприятие</Link>
+						<Link to={'/event/create'}>Создать мероприятие</Link>
 					</Button>
 					<Button border="2px solid #C0A2E2">
 						<Link to={'/login'} onClick={() => onLogout(dispatch)}>Выход</Link>

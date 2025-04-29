@@ -1,5 +1,5 @@
 :root {
-	--width: 400px;
+	--width: 100%;
 }
 
 .input {
@@ -7,7 +7,7 @@
 	width: var(--width);
 	height: 35px;
 	border: 2px solid rgb(192, 162, 226);
-	background-color: transparent;
+	
 	padding: 8px 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;

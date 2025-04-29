@@ -30,7 +30,7 @@ export const Header = () => {
 				{userRoleId === ROLE.GUEST ? <AuthButtons /> :
 				<div className={styles['func-button']}>
 					<Button backgroundColor="#E8FF59">
-						<Link to={'/create'}>Создать мероприятие</Link>
+						<Link to={'/event/create'}>Создать мероприятие</Link>
 					</Button>
 					<Button onClick={() => onLogout(dispath)}><img src="/public/img/logout.png" alt="logout" /></Button>
 				</div>}
