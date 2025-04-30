@@ -5,8 +5,8 @@ import styles from './file-input.module.css'
 export const FileInput = ({ register, setValue }) => {
 	const [preview, setPreview] = useState('')
 
-	const handleFileChange = (event) => {
-		const file = event.target.files[0]
+	const handleFileChange = ({ target }) => {
+		const file = target.files[0]
 
 		if(file) {
 			setPreview(URL.createObjectURL(file))

@@ -30,7 +30,7 @@ export const CommentsForm = ({ parentId, commentatorName }) => {
 		<div className={styles['comments-form-container']}>
 			<h4>Задайте вопрос организатору:</h4>
 			<div className={styles['comments-form']}>
-				<Textarea textareaRef={textareaRef} name="comment" id="comment" placeholder="Оставьте свой вопрос..." value={newComment} onChange={({ target }) => setNewComment(target.value)} />
+				<Textarea ref={textareaRef} name="comment" id="comment" placeholder="Оставьте свой вопрос..." value={newComment} onChange={({ target }) => setNewComment(target.value)} />
 				<Button onClick={() => onNewCommentAdd(userId, eventId, newComment)}><img src="/public/img/send-a-comment.png" alt="send-a-comment"/></Button>
 			</div>
 		</div>

@@ -1,21 +1,26 @@
-import PropTypes from "prop-types"
-import styles from './textarea.module.css'
+import PropTypes from "prop-types";
+import { forwardRef } from "react";
+import styles from "./textarea.module.css";
 
-export const Textarea = ({ textareaRef, name, id, placeholder, ...props }) => {
-	return <textarea
-		className={styles.textarea}
-		ref={textareaRef}
-		name={name}
-		id={id}
-		placeholder={placeholder}
-		{...props}
-	>
-	</textarea>
-}
+export const Textarea = forwardRef(({ name, id, placeholder, ...props }, ref) => {
+  return (
+    <textarea
+      className={styles.textarea}
+      ref={ref}
+      name={name}
+      id={id}
+      placeholder={placeholder}
+      {...props}
+    />
+  );
+});
 
 Textarea.propTypes = {
-	textareaRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	name: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	placeholder: PropTypes.string.isRequired,
-}
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
+
+Textarea.displayName = "Textarea";
+
+export default Textarea;
