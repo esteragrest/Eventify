@@ -17,6 +17,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
 import styles from './event-form.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserId } from '../../selectors';
+import { addEventAsync } from '../../actions';
 
 const eventSchema = yup.object().shape({
     file: yup
@@ -66,6 +69,9 @@ const eventSchema = yup.object().shape({
 
 
 export const EventForm = () => {
+	const userId = useSelector(selectUserId)
+	const dispatch = useDispatch()
+
 	const {
 		register,
 		handleSubmit,
@@ -87,9 +93,37 @@ export const EventForm = () => {
 	resolver: yupResolver(eventSchema)
 	})
 
-	const onSubmit = (data) => {
-		console.log(data)
+	const onSubmit = ({
+		file,
+		eventTitle,
+		eventDate,
+		eventTime,
+		address,
+		eventDescription,
+		payment,
+		ageLimit,
+		participants,
+		type
+	}) => {
+		const formData = new FormData()
+
+		formData.append('photo', file)
+		formData.append('title', eventTitle)
+		formData.append('organizer_id', userId)
+		formData.append('event_date', eventDate)
+		formData.append('event_time', eventTime)
+		formData.append('description', eventDescription)
+		formData.append('type', type ? 'closed' : 'open')
+		formData.append('payment', payment)
+		formData.append('address', address)
+		formData.append('age_limit', ageLimit)
+		formData.append('max_participants', participants || null)
+		console.log([...formData.entries()]);
+
+		dispatch(addEventAsync(formData)).then(console.log)
 	}
+
+	const handleSelectChange = (name) => (value) => setValue(name, value);
 
     return (
         <div className={styles['event-form-container']}>
@@ -104,8 +138,8 @@ export const EventForm = () => {
                 <Input type="text" name="event_address" id="event_address" placeholder="Полный адрес Вашего мероприятия" {...register('address')} />
                 <Textarea name="event_description" id="event_description" placeholder="Опишите Ваше мероприятие" {...register('eventDescription')} />
 				<FormRow>
-					<SelectableMenu setValue={(value) => setValue('payment', value)} title='Тип оплаты' options={PAYMENT_TYPE} />
-					<SelectableMenu setValue={(value) => setValue('ageLimit', value)} title='Возрастное ограничение' options={AGE_LIMIT_TYPE} />
+					<SelectableMenu setValue={handleSelectChange('payment')} title='Тип оплаты' options={PAYMENT_TYPE} />
+					<SelectableMenu setValue={handleSelectChange('ageLimit')} title='Возрастное ограничение' options={AGE_LIMIT_TYPE} />
 				</FormRow>
                 <div className={styles['input-wrapper']}>
                     <Input type="number" name="participants" id="participants" placeholder="Максимальное количество участников" {...register('participants')} />
