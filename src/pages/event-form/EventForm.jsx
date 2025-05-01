@@ -65,7 +65,6 @@ const eventSchema = yup.object().shape({
 	max_participants: yup.number()
 			.transform((value, originalValue) => (originalValue.trim() === '' ? undefined : value))
 			.min(1, 'Минимальное количество участников — 1')
-			.max(100, 'Максимальное количество участников — 100')
 });
 
 
@@ -110,6 +109,11 @@ export const EventForm = () => {
 	}
 
 	const handleSelectChange = (name) => (value) => setValue(name, value);
+
+	if(!userId) {
+		navigate("/login")
+		return
+	}
 
     return (
         <div className={styles['event-form-container']}>
