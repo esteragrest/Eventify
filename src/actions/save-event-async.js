@@ -1,7 +1,7 @@
 import { generateEventAccessLink, request } from "../utils"
 import { openModal } from "./open-modal"
 
-export const saveEventAsync = (eventData, userId, url, method) => (dispatch) =>{
+export const saveEventAsync = (eventData, url, method) => (dispatch) =>{
 	const eventFormData = Object.keys(eventData).reduce((eventFormData, key) => {
 		 const value = key === 'type' ? eventData[key] ? 'closed' : 'open' : eventData[key]
 		 eventFormData.append(key, value)
@@ -9,20 +9,18 @@ export const saveEventAsync = (eventData, userId, url, method) => (dispatch) =>{
 		 return eventFormData
 	}, new FormData())
 
-	eventFormData.append('organizer_id', userId)
-
-	return request(url, method, eventFormData).then(({ event, link, error }) => {
-		if(error) {
+	return request(url, method, eventFormData).then((res) => {
+		if(res.error) {
 			dispatch(openModal({
 				image: '/public/img/error.png',
-				title: 'Произошла ошибка при создании мероприятия :(',
-				text: 'Попробуйте создать мероприятие позже.',
-				children: error
+				title: 'Произошла ошибка при сохранении мероприятия :(',
+				text: 'Попробуйте повторить позже.',
+				children: res.error
 			}))
 		}
 
-		if(link) {
-			const eventAccesslink = generateEventAccessLink(event.id, link)
+		if(res.link) {
+			const eventAccesslink = generateEventAccessLink(res.event.id, res.link)
 
 			dispatch(openModal({
 				image: '/public/img/closed-event.png',
@@ -33,13 +31,13 @@ export const saveEventAsync = (eventData, userId, url, method) => (dispatch) =>{
 
 			return {
 				type: 'accessLink',
-				value: generateEventAccessLink(event.id, link)
+				value: eventAccesslink
 			}
 		}
 
 		return {
-			type: 'event',
-			value: event
+			type: 'success',
+			value: res.event || res.message
 		}
 	})
 }

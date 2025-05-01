@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './file-input.module.css'
 
-export const FileInput = ({ register, setValue }) => {
-	const [preview, setPreview] = useState('')
+export const FileInput = ({ register, setValue, defaultImage }) => {
+	const [preview, setPreview] = useState(defaultImage)
+
+	useEffect(() => {
+		if (defaultImage) {
+			setPreview(defaultImage);
+			
+			setValue("photo", defaultImage);
+		}
+	}, [defaultImage, setValue]);
 
 	const handleFileChange = ({ target }) => {
 		const file = target.files[0]
@@ -33,5 +41,6 @@ export const FileInput = ({ register, setValue }) => {
 
 FileInput.propTypes = {
 	register: PropTypes.func.isRequired,
-	setValue: PropTypes.func.isRequired
+	setValue: PropTypes.func.isRequired,
+	defaultImage: PropTypes.string
 }

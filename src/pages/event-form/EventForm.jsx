@@ -17,19 +17,25 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUserId } from '../../selectors';
-import { saveEventAsync } from '../../actions';
-import { useNavigate } from 'react-router-dom';
+import { selectEvent, selectUserId } from '../../selectors';
+import { loadEventAsync, RESET_EVENT_DATA, saveEventAsync } from '../../actions';
+import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import styles from './event-form.module.css';
+import { useEffect } from 'react';
 
 const eventSchema = yup.object().shape({
-    photo: yup
-        .mixed()
-        .required("Фото обязательно")
-        .test("fileType", "Файл должен быть изображением (jpg, jpeg, png)", (value) => {
-            if (!value) return false;
-            return ["image/jpeg", "image/jpg", "image/png"].includes(value.type);
-        }),
+	photo: yup
+    .mixed()
+    .required("Фото обязательно")
+    .test("isValidFileOrUrl", "Файл должен быть изображением (jpg, jpeg, png) или ссылкой", (value) => {
+        if (!value) return false;
+
+        if (typeof value === "string") {
+            return value.startsWith("http://") || value.startsWith("https://");
+        }
+
+        return ["image/jpeg", "image/jpg", "image/png"].includes(value.type);
+    }),
     title: yup
         .string()
         .required("Название мероприятия обязательно")
@@ -63,15 +69,22 @@ const eventSchema = yup.object().shape({
         .required("Адрес обязателен"),
 	type: yup.boolean(),
 	max_participants: yup.number()
-			.transform((value, originalValue) => (originalValue.trim() === '' ? undefined : value))
-			.min(1, 'Минимальное количество участников — 1')
+		.transform((value, originalValue) => {
+			if (typeof originalValue === "string") {
+				return originalValue.trim() === "" ? undefined : Number(originalValue);
+			}
+			return originalValue;
+		})
+		.min(1, 'Минимальное количество участников — 1')
 });
 
-
 export const EventForm = () => {
-	const userId = useSelector(selectUserId)
+	const currentUserId = useSelector(selectUserId)
+	const event = useSelector(selectEvent)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const isEditing = !!useMatch('/event/edit/:eventId');
+	const params = useParams()
 
 	const {
 		register,
@@ -91,18 +104,45 @@ export const EventForm = () => {
 		type: false,
 		max_participants: ''
 	},
-	resolver: yupResolver(eventSchema)
+		resolver: yupResolver(eventSchema)
 	})
 
-	const onSubmit = (eventFormData) => {
-		const url = '/api/events'
-		const method = 'POST'
+	useEffect(() => {
+		if(!isEditing) {
+			dispatch(RESET_EVENT_DATA)
+			return
+		}
 
-		dispatch(saveEventAsync(eventFormData, userId, url, method)).then(({ type, value }) => {
+		dispatch(loadEventAsync(`/api/events/event/${params.eventId}`)).then(({ event }) => {
+
+			if (event) {
+				reset({
+					photo: event.photo || "",
+					title: event.title || "",
+					description: event.description || "",
+					event_date: event.eventDate || "",
+					event_time: event.eventTime || "",
+					age_limit: event.ageLimit || "",
+					payment: event.payment || "",
+					address: event.address || "",
+					type: event.type === "closed",
+					max_participants: event.maxParticipants || ""
+				});
+			}
+		});
+
+	}, [isEditing, params, dispatch, reset])
+
+	const onSubmit = (eventFormData) => {
+		const url = isEditing ? `/api/events/${event.id}` : '/api/events'
+		const method = isEditing ? 'PUT' : 'POST'
+
+		dispatch(saveEventAsync(eventFormData, url, method)).then(({ type, value }) => {
 			if(type === 'accessLink') {
 				navigate('/events')
-			} else if (type === 'event') {
-				navigate(`/events/${value.id}`)
+			} else if (type === 'success') {
+				const eventId =  value.id || event.id
+				navigate(`/events/${eventId}`)
 			}
 			reset()
 		})
@@ -121,7 +161,7 @@ export const EventForm = () => {
 		errors?.type?.message ||
 		errors?.max_participants?.message
 
-	if(!userId) {
+	if(!currentUserId) {
 		navigate("/login")
 		return
 	}
@@ -130,7 +170,7 @@ export const EventForm = () => {
         <div className={styles['event-form-container']}>
             <TitleForm>Создайте свое мероприятие!</TitleForm>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <FileInput register={register} setValue={setValue}/>
+                <FileInput register={register} setValue={setValue} defaultImage={event.photo}/>
                 <Input type="text" name="event_title" id="event_title" placeholder="Название Вашего мероприятия" {...register('title')} />
                 <FormRow>
                     <DateTimeInput type="date" name="event_date" id="event_date" {...register('event_date')} />
@@ -139,16 +179,18 @@ export const EventForm = () => {
                 <Input type="text" name="event_address" id="event_address" placeholder="Полный адрес Вашего мероприятия" {...register('address')} />
                 <Textarea name="event_description" id="event_description" placeholder="Опишите Ваше мероприятие" {...register('description')} />
 				<FormRow>
-					<SelectableMenu setValue={handleSelectChange('payment')} title='Тип оплаты' options={PAYMENT_TYPE} />
-					<SelectableMenu setValue={handleSelectChange('age_limit')} title='Возрастное ограничение' options={AGE_LIMIT_TYPE} />
+					<SelectableMenu setValue={handleSelectChange('payment')} title='Тип оплаты' options={PAYMENT_TYPE} selectedValue={event.payment} />
+					<SelectableMenu setValue={handleSelectChange('age_limit')} title='Возрастное ограничение' options={AGE_LIMIT_TYPE} selectedValue={event.ageLimit} />
 				</FormRow>
                 <div className={styles['input-wrapper']}>
                     <Input type="number" name="participants" id="participants" placeholder="Максимальное количество участников" {...register('max_participants')} />
                     <ContentOverlay><p className={styles['optional-text']}>Поле необязательное</p></ContentOverlay>
                 </div>
-                <div className={styles['checkbox-wrapper']}>
-                   <CustomCheckbox content='Сделать мое мероприятие закрытым' {...register('type')}/>
-                </div>
+				{!isEditing &&
+					<div className={styles['checkbox-wrapper']}>
+					<CustomCheckbox content='Сделать мое мероприятие закрытым' {...register('type')}/>
+					</div>
+				}
 				{formError && <ErrorMessage>{formError}</ErrorMessage>}
                 <Button type="submit" backgroundColor="#C0A2E2" disabled={!!formError}>Создать мероприятие</Button>
             </Form>

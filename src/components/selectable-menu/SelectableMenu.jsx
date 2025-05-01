@@ -1,10 +1,15 @@
 import PropTypes from "prop-types"
 import styles from './selectable-menu.module.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const SelectableMenu = ({ title, options, setValue }) => {
+export const SelectableMenu = ({ title, options, setValue, selectedValue }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [selectedOption, setSelectedOption] = useState(title)
+
+	useEffect(() => {
+		const selected = options.find(option => option.value == selectedValue)
+		setSelectedOption(selected ? selected.title : title)
+	}, [selectedValue, options, title])
 
 	const handleOpenMenu = () => {
 		setIsOpen(!isOpen)
@@ -38,5 +43,6 @@ export const SelectableMenu = ({ title, options, setValue }) => {
 SelectableMenu.propTypes = {
 	title: PropTypes.string.isRequired,
 	options: PropTypes.array.isRequired,
-	setValue: PropTypes.func.isRequired
+	setValue: PropTypes.func.isRequired,
+	selectedValue: PropTypes.string
 }
