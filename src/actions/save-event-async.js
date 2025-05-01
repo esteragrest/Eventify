@@ -16,7 +16,8 @@ export const saveEventAsync = (eventData, userId, url, method) => (dispatch) =>{
 			dispatch(openModal({
 				image: '/public/img/error.png',
 				title: 'Произошла ошибка при создании мероприятия :(',
-				text: 'Попробуйте создать мероприятие позже.'
+				text: 'Попробуйте создать мероприятие позже.',
+				children: error
 			}))
 		}
 

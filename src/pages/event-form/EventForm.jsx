@@ -16,11 +16,11 @@ import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
-import styles from './event-form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserId } from '../../selectors';
 import { saveEventAsync } from '../../actions';
 import { useNavigate } from 'react-router-dom';
+import styles from './event-form.module.css';
 
 const eventSchema = yup.object().shape({
     photo: yup
@@ -78,7 +78,7 @@ export const EventForm = () => {
 		handleSubmit,
 		setValue,
 		reset,
-		formState: { errors, isValid}
+		formState: { errors}
 	} = useForm({ defaultValues:{
 		photo: '',
 		title: '',
@@ -110,6 +110,17 @@ export const EventForm = () => {
 
 	const handleSelectChange = (name) => (value) => setValue(name, value);
 
+	const formError =
+		errors?.photo?.message ||
+		errors?.title?.message ||
+		errors?.event_date?.message ||
+		errors?.event_time?.message ||
+		errors?.address?.message ||
+		errors?.description?.message ||
+		errors?.age_limit?.message ||
+		errors?.type?.message ||
+		errors?.max_participants?.message
+
 	if(!userId) {
 		navigate("/login")
 		return
@@ -138,8 +149,8 @@ export const EventForm = () => {
                 <div className={styles['checkbox-wrapper']}>
                    <CustomCheckbox content='Сделать мое мероприятие закрытым' {...register('type')}/>
                 </div>
-				{errors[0] && <ErrorMessage>{errors[0]}</ErrorMessage>}
-                <Button type="submit" backgroundColor="#C0A2E2" disabled={!isValid}>Создать мероприятие</Button>
+				{formError && <ErrorMessage>{formError}</ErrorMessage>}
+                <Button type="submit" backgroundColor="#C0A2E2" disabled={!!formError}>Создать мероприятие</Button>
             </Form>
         </div>
     );
