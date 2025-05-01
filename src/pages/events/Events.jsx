@@ -13,7 +13,7 @@ export const Events = () => {
 	const searchPhrase = useSelector(selectSearchPhrase)
 
 	useEffect(() => {
-		request(`/api/events?limit=18&page=${page}&title=${searchPhrase}`).then(eventsData => {
+		request(`/api/events?limit=16&page=${page}&title=${searchPhrase}`).then(eventsData => {
 			setEvents(eventsData.events)
 			setLastPage(eventsData.lastPage)
 		})

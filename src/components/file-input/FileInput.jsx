@@ -10,7 +10,7 @@ export const FileInput = ({ register, setValue }) => {
 
 		if(file) {
 			setPreview(URL.createObjectURL(file))
-			setValue('file', file)
+			setValue('photo', file)
 		}
 	}
 
@@ -25,7 +25,7 @@ export const FileInput = ({ register, setValue }) => {
 				id="file"
 				accept="image/jpeg, image/jpg, image/png"
 				onChange={handleFileChange}
-				{...register("file", { onChange: handleFileChange })}
+				{...register("photo", { onChange: handleFileChange })}
 			/>
 		</div>
 	)
