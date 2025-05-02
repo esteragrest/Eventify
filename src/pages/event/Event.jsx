@@ -54,7 +54,7 @@ export const Event = () => {
 				<div>{error}</div>
 			) : (
 				<>
-					<EventHeader event={event} isOrganizer={accessRights} />
+					<EventHeader event={event} accessRights={accessRights} />
 					<div className={styles['event-overview']}>
 						<EventContent event={event} />
 						<div className={styles['event-interactive-area']}>
