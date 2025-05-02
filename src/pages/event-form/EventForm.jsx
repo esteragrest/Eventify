@@ -17,11 +17,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEvent, selectUserId } from '../../selectors';
+import { selectEvent, selectUserId, selectUserRole } from '../../selectors';
 import { loadEventAsync, RESET_EVENT_DATA, saveEventAsync } from '../../actions';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import styles from './event-form.module.css';
 import { useEffect } from 'react';
+import { checkAccessEvent } from './utils/check-access-event';
 
 const eventSchema = yup.object().shape({
 	photo: yup
@@ -80,6 +81,7 @@ const eventSchema = yup.object().shape({
 
 export const EventForm = () => {
 	const currentUserId = useSelector(selectUserId)
+	const currentUserRoleId = useSelector(selectUserRole)
 	const event = useSelector(selectEvent)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -108,30 +110,34 @@ export const EventForm = () => {
 	})
 
 	useEffect(() => {
-		if(!isEditing) {
-			dispatch(RESET_EVENT_DATA)
-			return
-		}
+    if (!isEditing) {
+        dispatch(RESET_EVENT_DATA);
+        return;
+    }
 
-		dispatch(loadEventAsync(`/api/events/event/${params.eventId}`)).then(({ event }) => {
+    dispatch(loadEventAsync(`/api/events/event/${params.eventId}`)).then(({ event }) => {
+        if (event) {
 
-			if (event) {
-				reset({
-					photo: event.photo || "",
-					title: event.title || "",
-					description: event.description || "",
-					event_date: event.eventDate || "",
-					event_time: event.eventTime || "",
-					age_limit: event.ageLimit || "",
-					payment: event.payment || "",
-					address: event.address || "",
-					type: event.type === "closed",
-					max_participants: event.maxParticipants || ""
-				});
-			}
-		});
+        if (checkAccessEvent(event, currentUserId, currentUserRoleId)) {
+            navigate("/events");
+            return;
+        }
 
-	}, [isEditing, params, dispatch, reset])
+        reset({
+            photo: event.photo || "",
+            title: event.title || "",
+            description: event.description || "",
+            event_date: event.eventDate || "",
+            event_time: event.eventTime || "",
+            age_limit: event.ageLimit || "",
+            payment: event.payment || "",
+            address: event.address || "",
+            type: event.type === "closed",
+            max_participants: event.maxParticipants || ""
+        });
+    }
+    });
+}, [isEditing, params, dispatch, reset, navigate, currentUserId, currentUserRoleId]);
 
 	const onSubmit = (eventFormData) => {
 		const url = isEditing ? `/api/events/${event.id}` : '/api/events'

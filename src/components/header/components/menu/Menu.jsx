@@ -2,16 +2,17 @@ import { NavBar } from '../../../navbar/NavBar';
 import { AuthButtons } from '../../../auth-buttons/AuthButtons';
 import { Button } from '../../../button/Button';
 import { Link } from 'react-router-dom';
-import { ROLE } from '../../../../constans';
-import PropTypes from 'prop-types';
-import styles from './menu.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserRole } from '../../../../selectors';
-import { onLogout } from '../../../../utils';
+import { isAuthorized, onLogout } from '../../../../utils';
+import PropTypes from 'prop-types';
+import styles from './menu.module.css';
 
 export const Menu = ({ toggleMenu }) => {
 	const userRoleId = useSelector(selectUserRole)
 	const dispatch = useDispatch()
+
+	const isAuth = isAuthorized(userRoleId)
 
 	return (
 		<div className={styles['menu-container']}>
@@ -20,7 +21,7 @@ export const Menu = ({ toggleMenu }) => {
 				<NavBar />
 			</div>
 			<div className={styles.buttons}>
-			{userRoleId === ROLE.GUEST ? <AuthButtons /> :
+			{!isAuth ? <AuthButtons /> :
 				<div className={styles.buttons}>
 					<Button backgroundColor="#E8FF59">
 						<Link to={'/event/create'}>Создать мероприятие</Link>

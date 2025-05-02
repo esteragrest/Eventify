@@ -2,12 +2,15 @@ import { useSelector } from 'react-redux';
 import { AuthButtons } from '../../../../components';
 import { Button } from '../../../../components';
 import { Link } from 'react-router-dom';
-import { ROLE } from '../../../../constans';
-import styles from './welcome.module.css';
 import { selectUserRole } from '../../../../selectors';
+import { isAuthorized } from '../../../../utils';
+import styles from './welcome.module.css';
 
 export const Welcome = () => {
 	const userRoleId = useSelector(selectUserRole)
+
+	const isAuth = isAuthorized(userRoleId)
+
 	return (
 		<div className={styles['welcome-container']}>
 			<div className={styles.text}>
@@ -18,7 +21,7 @@ export const Welcome = () => {
 					управляйте списком гостей и создавайте незабываемые моменты.
 				</p>
 				<div className={styles.buttons}>
-				{userRoleId === ROLE.GUEST ? <AuthButtons /> :
+				{!isAuth ? <AuthButtons /> :
 					<div>
 						<Button backgroundColor="#E8FF59">
 							<Link to={'/event/create'}>Создать мероприятие</Link>

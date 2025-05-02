@@ -7,8 +7,7 @@ import { useState } from 'react';
 import styles from './header.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
-import { ROLE } from '../../constans';
-import { onLogout } from '../../utils';
+import { isAuthorized, onLogout } from '../../utils';
 
 export const Header = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -19,6 +18,8 @@ export const Header = () => {
 		setMenuOpen(!menuOpen);
 	};
 
+	const isAuth = isAuthorized(userRoleId)
+
 	return (
 		<header className={styles.header}>
 			<Logo />
@@ -27,7 +28,7 @@ export const Header = () => {
 			</div>
 			<Search />
 			<div className={styles.buttons}>
-				{userRoleId === ROLE.GUEST ? <AuthButtons /> :
+				{!isAuth ? <AuthButtons /> :
 				<div className={styles['func-button']}>
 					<Button backgroundColor="#E8FF59">
 						<Link to={'/event/create'}>Создать мероприятие</Link>

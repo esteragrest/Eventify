@@ -4,7 +4,7 @@ import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrati
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserId, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
-import { ROLE } from '../../constans';
+import { checkAccessRights, checkOwner, isAuthorized } from '../../utils';
 import styles from './event.module.css'
 
 
@@ -44,8 +44,9 @@ export const Event = () => {
 		setCommentatorName(commentatorName)
 	}
 
-	const isAuth = userRoleId !== ROLE.GUEST
-	const isOrganizer = userId === event.organizerId
+	const isAuth = isAuthorized(userRoleId)
+	const accessRights = checkAccessRights(event.organizerId, userId, userRoleId)
+	const isOwner = checkOwner(event.organizerId, userId)
 
 	return (
 		<div className={styles['event-container']}>
@@ -53,7 +54,7 @@ export const Event = () => {
 				<div>{error}</div>
 			) : (
 				<>
-					<EventHeader event={event} isOrganizer={isOrganizer} />
+					<EventHeader event={event} isOrganizer={accessRights} />
 					<div className={styles['event-overview']}>
 						<EventContent event={event} />
 						<div className={styles['event-interactive-area']}>
@@ -63,10 +64,10 @@ export const Event = () => {
 							</>
 						)}
 						<EventComments comments={event.comments} onReply={handleReply} />
-						{isAuth && !isOrganizer && <EventRegistrationForm />}
+						{isAuth && !isOwner && <EventRegistrationForm />}
 						</div>
 					</div>
-					{isOrganizer && <ListOfParticipants />}
+					{accessRights && <ListOfParticipants />}
 
 				</>
 			)}
