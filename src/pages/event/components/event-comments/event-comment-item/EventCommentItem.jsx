@@ -56,7 +56,7 @@ export const EventCommentItem = (
 
 	return (
 		<div className={styles['comment-container']}>
-			<UserMainInfo firstName={commentatorFirstName} lastName={commentatorLastName} photo={commentatorPhoto}>
+			<UserMainInfo firstName={commentatorFirstName} lastName={commentatorLastName || ''} photo={commentatorPhoto}>
 				{organizerId === commentatorId && <ContentOverlay><p className={styles.organizer}>Организатор</p></ContentOverlay>}
 			</UserMainInfo>
 			<p>{content}</p>

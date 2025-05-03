@@ -9,7 +9,9 @@ const initialUserState = {
 	email: '',
 	phone: '',
 	photo: '',
-	roleId: ROLE.GUEST
+	roleId: ROLE.GUEST,
+	countUserEvents: 0,
+	countOfEventsAttended: 0,
 }
 
 export const userReducer = (state = initialUserState, action) => {

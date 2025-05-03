@@ -15,7 +15,7 @@ export const ParticipantItem = ({
 }) => {
 	return (
 		<div className={styles['participant-item-container']}>
-			<UserMainInfo firstName={firstName} lastName={lastName} photo={photo}>
+			<UserMainInfo firstName={firstName} lastName={lastName || ''} photo={photo}>
 				<p>{email}</p>
 			</UserMainInfo>
 			<OptionItem optionName='Телефон:' description={phone}/>

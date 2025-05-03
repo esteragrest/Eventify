@@ -12,7 +12,7 @@ export const NavBar = () => {
 					<ExtendedLink to="/events">Мероприятия</ExtendedLink>
 				</li>
 				<li>
-					<ExtendedLink to="/profile">Профиль</ExtendedLink>
+					<ExtendedLink to="/profile/me">Профиль</ExtendedLink>
 				</li>
 			</ul>
 		</nav>

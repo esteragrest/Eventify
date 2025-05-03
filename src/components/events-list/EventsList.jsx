@@ -17,7 +17,7 @@ export const EventsList = ({ events }) => {
                             key={id}
                             eventId={id}
                             title={title}
-                            organizer={`${organizerFirstName} ${organizerLastName}`}
+                            organizer={`${organizerFirstName} ${organizerLastName || ''}`}
                             eventDate={eventDate}
                             description={description}
                             photo={photo}

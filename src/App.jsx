@@ -1,6 +1,6 @@
 import { Header, Modal } from './components';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Authorization, Event, EventForm, Events, MainPage, Registration } from './pages';
+import { Authorization, Event, EventForm, Events, MainPage, Registration, UserProfile } from './pages';
 import { useDispatch } from 'react-redux';
 import { useLayoutEffect } from 'react';
 import { setUser } from './actions';
@@ -30,7 +30,8 @@ export const App = () => {
 			<Routes>
 				<Route path="/" element={<MainPage />} />
 				<Route path="/events" element={<Events />} />
-				<Route path="/profile" element={<div>Профиль</div>} />
+				<Route path="/profile/me" element={<UserProfile />} />
+				<Route path="/profile/:userId" element={<div>Чужой рофиль</div>} />
 				<Route path="/events/:eventId" element={<Event />} />
 				<Route path="/event/create" element={<EventForm />} />
 				<Route path="/event/edit/:eventId" element={<EventForm />} />

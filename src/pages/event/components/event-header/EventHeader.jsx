@@ -1,5 +1,5 @@
 import { EventHeaderItem } from "./event-header-item/EventHeaderItem";
-import { Button, ContentOverlay } from "../../../../components";
+import { Button, ButtonsContaner, ContentOverlay } from "../../../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CLOSE_MODAL, openModal, removeEventAsync } from "../../../../actions";
@@ -34,7 +34,7 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
         dispatch(removeEventAsync(id)).then((message) => {
             if (!message) return;
             dispatch(CLOSE_MODAL);
-            navigate("/profile");
+            navigate("/profile/me");
         });
     };
 
@@ -61,7 +61,7 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
         <div className={styles["content-header"]}>
             <EventHeaderItem>
                 <h3>{title}</h3>
-                <ContentOverlay>{`${organizerFirstName} ${organizerLastName}`}</ContentOverlay>
+                <ContentOverlay>{`${organizerFirstName} ${organizerLastName || ''}`}</ContentOverlay>
                 {isPastEvent && averageRating !== null && (
                     <div className={styles.rating}>
 						<p>{averageRating}</p>
@@ -73,14 +73,14 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
                 <p>{eventDate}</p>
                 <ContentOverlay>{eventTime}</ContentOverlay>
                 {accessRights && (
-                    <div>
+                    <ButtonsContaner>
                         <Button onClick={() => navigate(`/event/edit/${id}`, { state: { accessLink } })}>
                                 <img src="/public/img/edit-event.svg" alt="edit-event" />
                         </Button>
                         <Button onClick={onDeleteEvent}>
                             <img src="/public/img/delete-event.svg" alt="delete-event" />
                         </Button>
-                    </div>
+                    </ButtonsContaner>
                 )}
             </EventHeaderItem>
         </div>
@@ -92,7 +92,7 @@ EventHeader.propTypes = {
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         organizerFirstName: PropTypes.string.isRequired,
-        organizerLastName: PropTypes.string.isRequired,
+        organizerLastName: PropTypes.string,
         eventDate: PropTypes.string.isRequired,
         eventTime: PropTypes.string.isRequired,
     }).isRequired,
