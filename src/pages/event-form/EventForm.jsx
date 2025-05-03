@@ -19,10 +19,11 @@ import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserId, selectUserRole } from '../../selectors';
 import { loadEventAsync, RESET_EVENT_DATA, saveEventAsync } from '../../actions';
-import { useMatch, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
 import styles from './event-form.module.css';
 import { useEffect } from 'react';
 import { checkAccessEvent } from './utils/check-access-event';
+import { getEventUrl } from '../../utils';
 
 const eventSchema = yup.object().shape({
 	photo: yup
@@ -87,6 +88,8 @@ export const EventForm = () => {
 	const navigate = useNavigate()
 	const isEditing = !!useMatch('/event/edit/:eventId');
 	const params = useParams()
+	const location = useLocation()
+	const url = getEventUrl(params, location)
 
 	const {
 		register,
@@ -115,7 +118,7 @@ export const EventForm = () => {
         return;
     }
 
-    dispatch(loadEventAsync(`/api/events/event/${params.eventId}`)).then(({ event }) => {
+    dispatch(loadEventAsync(url)).then(({ event }) => {
         if (event) {
 
         if (checkAccessEvent(event, currentUserId, currentUserRoleId)) {
@@ -137,18 +140,20 @@ export const EventForm = () => {
         });
     }
     });
-}, [isEditing, params, dispatch, reset, navigate, currentUserId, currentUserRoleId]);
+}, [isEditing, params, url, dispatch, reset, navigate, currentUserId, currentUserRoleId]);
 
 	const onSubmit = (eventFormData) => {
-		const url = isEditing ? `/api/events/${event.id}` : '/api/events'
+		const serverUrl = isEditing ? `/api/events/${event.id}` : '/api/events'
 		const method = isEditing ? 'PUT' : 'POST'
 
-		dispatch(saveEventAsync(eventFormData, url, method)).then(({ type, value }) => {
+		dispatch(saveEventAsync(eventFormData, serverUrl, method)).then(({ type, value }) => {
 			if(type === 'accessLink') {
 				navigate('/events')
 			} else if (type === 'success') {
 				const eventId =  value.id || event.id
-				navigate(`/events/${eventId}`)
+				const accessLink = location.state?.accessLink
+
+				navigate(`/events/${eventId}${accessLink ? `?accessLink=${accessLink}` : ''}`)
 			}
 			reset()
 		})
@@ -176,7 +181,7 @@ export const EventForm = () => {
         <div className={styles['event-form-container']}>
             <TitleForm>Создайте свое мероприятие!</TitleForm>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <FileInput register={register} setValue={setValue} defaultImage={event.photo}/>
+                <FileInput register={register} setValue={setValue} defaultImage={isEditing ? event.photo: null}/>
                 <Input type="text" name="event_title" id="event_title" placeholder="Название Вашего мероприятия" {...register('title')} />
                 <FormRow>
                     <DateTimeInput type="date" name="event_date" id="event_date" {...register('event_date')} />

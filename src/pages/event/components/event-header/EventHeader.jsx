@@ -1,6 +1,6 @@
 import { EventHeaderItem } from "./event-header-item/EventHeaderItem";
 import { Button, ContentOverlay } from "../../../../components";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CLOSE_MODAL, openModal, removeEventAsync } from "../../../../actions";
 import PropTypes from "prop-types";
@@ -10,8 +10,11 @@ import { useEffect, useState } from "react";
 import { request } from "../../../../utils";
 
 export const EventHeader = ({ event: { id, title, organizerFirstName, organizerLastName, eventDate, eventTime }, accessRights }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const dispatch = useDispatch()
+	const location = useLocation()
+    const navigate = useNavigate()
+	const queryParams = new URLSearchParams(location.search)
+	const accessLink = queryParams.get("accessLink")
 
     const isPastEvent = hasEventPassed(eventDate);
     const [averageRating, setAverageRating] = useState(null);
@@ -71,10 +74,8 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
                 <ContentOverlay>{eventTime}</ContentOverlay>
                 {accessRights && (
                     <div>
-                        <Button>
-                            <Link to={`/event/edit/${id}`}>
+                        <Button onClick={() => navigate(`/event/edit/${id}`, { state: { accessLink } })}>
                                 <img src="/public/img/edit-event.svg" alt="edit-event" />
-                            </Link>
                         </Button>
                         <Button onClick={onDeleteEvent}>
                             <img src="/public/img/delete-event.svg" alt="delete-event" />

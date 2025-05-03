@@ -4,7 +4,7 @@ import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrati
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserId, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
-import { checkAccessRights, checkOwner, isAuthorized } from '../../utils';
+import { checkAccessRights, checkOwner, getEventUrl, isAuthorized } from '../../utils';
 import styles from './event.module.css'
 import { hasEventPassed } from './utils/has-event-passed';
 
@@ -25,20 +25,12 @@ export const Event = () => {
 	}, [params, location, dispatch])
 
 	useEffect(() => {
-        const queryParams = new URLSearchParams(location.search);
-        const accessLink = queryParams.get('accessLink');
-		let url;
-
-        if (accessLink) {
-            url = `/api/events/event/${params.eventId}?accessLink=${accessLink}`;
-        } else {
-            url = `/api/events/event/${params.eventId}`;
-        }
+        const url = getEventUrl(params, location)
 
 		dispatch(loadEventAsync(url)).then((eventData) => {
 			setError(eventData.error)
 		})
-    }, [params, location.search, dispatch]);
+    }, [params, location, dispatch]);
 
 	const handleReply = (id, commentatorName) => {
 		setParentId(id)
