@@ -1,11 +1,12 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom'
-import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm, ListOfParticipants } from './components';
+import { CommentsForm, EventComments, EventContent, EventHeader, EventRegistrationForm, ListOfParticipants, Rating } from './components';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserId, selectUserRole } from '../../selectors'
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
 import { checkAccessRights, checkOwner, isAuthorized } from '../../utils';
 import styles from './event.module.css'
+import { hasEventPassed } from './utils/has-event-passed';
 
 
 export const Event = () => {
@@ -37,7 +38,7 @@ export const Event = () => {
 		dispatch(loadEventAsync(url)).then((eventData) => {
 			setError(eventData.error)
 		})
-    }, [params, location, dispatch]);
+    }, [params, location.search, dispatch]);
 
 	const handleReply = (id, commentatorName) => {
 		setParentId(id)
@@ -47,6 +48,7 @@ export const Event = () => {
 	const isAuth = isAuthorized(userRoleId)
 	const accessRights = checkAccessRights(event.organizerId, userId, userRoleId)
 	const isOwner = checkOwner(event.organizerId, userId)
+	const isPastEvent = hasEventPassed(event.eventDate)
 
 	return (
 		<div className={styles['event-container']}>
@@ -64,7 +66,8 @@ export const Event = () => {
 							</>
 						)}
 						<EventComments comments={event.comments} onReply={handleReply} />
-						{isAuth && !isOwner && <EventRegistrationForm />}
+						{isAuth && !isOwner && !isPastEvent && <EventRegistrationForm />}
+    					{isAuth && isPastEvent && <Rating />}
 						</div>
 					</div>
 					{accessRights && <ListOfParticipants />}

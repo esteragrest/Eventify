@@ -11,3 +11,19 @@
 	font-size: 24px;
 }
 
+.rating {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+}
+
+.star {
+	display: flex;
+	justify-content: center;
+	align-items: end;
+	font-size: 32px;
+	height: 35px;
+	width: auto;
+	color: #FFD700;
+}
