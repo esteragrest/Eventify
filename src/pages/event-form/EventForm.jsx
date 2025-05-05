@@ -46,7 +46,7 @@ const eventSchema = yup.object().shape({
     description: yup
         .string()
         .required("Описание мероприятия обязательно")
-        .max(500, "Описание не должно превышать 500 символов"),
+        .max(1000, "Описание не должно превышать 1000 символов"),
     age_limit: yup
         .string()
         .required("Возрастное ограничение обязательно")

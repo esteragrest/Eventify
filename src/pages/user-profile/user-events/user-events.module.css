@@ -1,0 +1,8 @@
+.user-events-container {
+	display: flex;
+	justify-content: start;
+	align-items: start;
+	flex-direction: column;
+	width: 90%;
+	padding: 30px 0;
+}

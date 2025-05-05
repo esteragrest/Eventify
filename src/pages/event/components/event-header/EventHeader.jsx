@@ -1,5 +1,5 @@
 import { EventHeaderItem } from "./event-header-item/EventHeaderItem";
-import { Button, ContentOverlay, ControlButtons } from "../../../../components";
+import { ContentOverlay, ControlButtons, DeleteButtons } from "../../../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CLOSE_MODAL, openModal, removeEventAsync } from "../../../../actions";
@@ -43,16 +43,7 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
             image: "/public/img/delete.png",
             title: "Вы уверены, что хотите удалить это мероприятие?",
             text: "После удаления мероприятие не будет отображаться в общем списке и никто не сможет его увидеть.",
-            children: (
-                <>
-                    <Button backgroundColor="#E0C9FF" onClick={() => dispatch(CLOSE_MODAL)}>
-                        Отмена
-                    </Button>
-                    <Button backgroundColor="#C0A2E2" onClick={handleDeleteEvent}>
-                        Удалить
-                    </Button>
-                </>
-            ),
+            children: <DeleteButtons onDelete={handleDeleteEvent} />
         };
         dispatch(openModal(modalData));
     };

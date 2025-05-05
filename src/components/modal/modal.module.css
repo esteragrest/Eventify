@@ -86,11 +86,3 @@
 	cursor: pointer;
 	z-index: 10;
 }
-
-.special-content {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: row;
-	gap: 20px;
-}

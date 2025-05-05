@@ -5,14 +5,15 @@ import { Button } from '../button/Button';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './header.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectUserRole } from '../../selectors';
-import { isAuthorized, onLogout } from '../../utils';
+import { isAuthorized } from '../../utils';
+import { useLogout } from '../../hooks';
 
 export const Header = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const userRoleId = useSelector(selectUserRole)
-	const dispath = useDispatch()
+	const onLogout = useLogout()
 
 	const toggleMenu = () => {
 		setMenuOpen(!menuOpen);
@@ -33,7 +34,7 @@ export const Header = () => {
 					<Button backgroundColor="#E8FF59">
 						<Link to={'/event/create'}>Создать мероприятие</Link>
 					</Button>
-					<Button onClick={() => onLogout(dispath)}><img src="/public/img/logout.png" alt="logout" /></Button>
+					<Button onClick={onLogout}><img src="/public/img/logout.png" alt="logout" /></Button>
 				</div>}
 			</div>
 			<div className={styles.burgerMenu} onClick={toggleMenu}>

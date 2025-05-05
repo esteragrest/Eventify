@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectOrganizerId, selectUserId, selectUserRole } from "../../../../../selectors"
-import { Button, ContentOverlay, ItemMainInfo } from "../../../../../components"
+import { Button, ContentOverlay, DeleteButtons, ItemMainInfo } from "../../../../../components"
 import { removeCommentAsync } from "../../../../../actions/remove-comment-async"
 import { ROLE } from "../../../../../constans"
 import PropTypes from "prop-types"
@@ -27,25 +27,18 @@ export const EventCommentItem = (
 	const userRole = useSelector(selectUserRole)
 	const dispatch = useDispatch()
 
+	const handleDeleteComment = (commentId) => {
+		dispatch(removeCommentAsync(commentId));
+		dispatch(CLOSE_MODAL);
+		onReply(null, '');
+	}
+
 	const onDeleteComment = (commentId) => {
 		const modalData = {
 			image: '/public/img/delete.png',
 			title: 'Вы уверены, что хотите удалить этот вопрос?',
 			text: 'После удаления вопрос не будет отображаться в общем списке и Вы не сможете на него ответить.',
-			children: (
-				<>
-					<Button backgroundColor='#E0C9FF' onClick={() => dispatch(CLOSE_MODAL)}>
-						Отмена
-					</Button>
-					<Button backgroundColor='#C0A2E2' onClick={() => {
-						dispatch(removeCommentAsync(commentId));
-						dispatch(CLOSE_MODAL);
-						onReply(null, '');
-					}}>
-						Удалить
-					</Button>
-				</>
-			)
+			children: <DeleteButtons onDelete={() => handleDeleteComment(commentId)}/>
 		}
 		dispatch(openModal(modalData))
 	}

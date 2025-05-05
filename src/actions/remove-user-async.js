@@ -1,12 +1,13 @@
 import { request } from "../utils"
 import { openModal } from "./open-modal"
 
-export const removeEventAsync = (eventId) => (dispatch) =>
-	request(`/api/events/${eventId}`, 'DELETE').then(({ message, error }) => {
+export const removeUserAsync = (userId) => (dispatch) =>
+	request(`/api/users/${userId}`, 'DELETE').then(({ message, error }) => {
+
 		if(error) {
 			dispatch(openModal({
 				image: '/public/img/error.png',
-				title: 'Произошла ошибка при удалении мероприятия :(',
+				title: 'Произошла ошибка при удалении аккаунта :(',
 				text: 'Попробуйте повторить позже.',
 				children: error
 			}))

@@ -1,4 +1,4 @@
-import { EventsList, ItemMainInfo, ListItemContainer } from '../../components'
+import { ItemMainInfo, ListItemContainer } from '../../components'
 import styles from './user-profile.module.css'
 import { useEffect, useState } from 'react'
 import { ROLE } from '../../constans'
@@ -7,6 +7,7 @@ import { request } from '../../utils'
 import { useSelector } from 'react-redux'
 import { selectUserId, selectUserRole } from '../../selectors'
 import { UserProfileHeader } from './user-profile-header/userProfileHeader'
+import { UserEvents } from './user-events/UserEvents'
 
 export const UserProfile = () => {
 	const [theseActiveEvents, setTheseActiveEvents] = useState(true)
@@ -38,10 +39,6 @@ export const UserProfile = () => {
 			.catch(() => setUserProfile(null))
 	}, [userId])
 
-	const handleActiveEvents = () => {
-		setTheseActiveEvents(!theseActiveEvents)
-	}
-
 	if(roleId === ROLE.GUEST) {
 		//додумать
 		navigate('/login')
@@ -49,12 +46,8 @@ export const UserProfile = () => {
 
 	return (
 		<div className={styles['user-profile-container']}>
-			<UserProfileHeader {...userProfile} theseActiveEvents={theseActiveEvents} handleActiveEvents={handleActiveEvents}/>
-			<h3>{theseActiveEvents ? 'Активные мероприятие:' : 'Архив мероприятий:'}</h3>
-			{theseActiveEvents
-				? <EventsList events={activeEvents} />
-				: <EventsList events={archivedEvents} />
-			}
+			<UserProfileHeader {...userProfile} theseActiveEvents={theseActiveEvents} handleActiveEvents={() => setTheseActiveEvents(!theseActiveEvents)}/>
+			<UserEvents theseActiveEvents={theseActiveEvents} activeEvents={activeEvents} archivedEvents={archivedEvents} />
 			<div className={styles['user-registrations-container']}>
 			<h3>Мои регистрации:</h3>
 				{userRegistrations.map(registrationEvent =>

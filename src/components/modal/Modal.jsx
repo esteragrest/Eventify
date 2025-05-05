@@ -29,9 +29,7 @@ export const Modal = () => {
 					<ContentOverlay>
 						<p>{text}</p>
 					</ContentOverlay>
-					<div className={styles['special-content']}>
-						{children}
-					</div>
+					{children}
 				</div>
 			</div>
 		</div>
