@@ -1,10 +1,11 @@
-import { UserMainInfo } from '../../../../../components'
+import { ListItemContainer, ItemMainInfo } from '../../../../../components'
 import PropTypes from 'prop-types'
 import styles from './participant-item.module.css'
 import { OptionItem } from '../../../../../components/option-item/OptionItem'
 
 export const ParticipantItem = ({
 	registration: {
+		registeredUserId,
 		firstName,
 		lastName,
 		photo,
@@ -15,11 +16,17 @@ export const ParticipantItem = ({
 }) => {
 	return (
 		<div className={styles['participant-item-container']}>
-			<UserMainInfo firstName={firstName} lastName={lastName || ''} photo={photo}>
-				<p>{email}</p>
-			</UserMainInfo>
-			<OptionItem optionName='Телефон:' description={phone}/>
-			<OptionItem optionName='Количество участников:' description={participantsCount}/>
+			<ListItemContainer to={`/profile/${registeredUserId}`}>
+				<ItemMainInfo
+					itemName={`${firstName} ${lastName || ''}`}
+					photo={photo}
+					to={`/profile/${registeredUserId}`}
+					>
+					<p>{email}</p>
+				</ItemMainInfo>
+				<OptionItem optionName='Телефон:' description={phone}/>
+				<OptionItem optionName='Количество участников:' description={participantsCount}/>
+			</ListItemContainer>
 		</div>
 	)
 }

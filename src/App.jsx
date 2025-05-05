@@ -30,8 +30,7 @@ export const App = () => {
 			<Routes>
 				<Route path="/" element={<MainPage />} />
 				<Route path="/events" element={<Events />} />
-				<Route path="/profile/me" element={<UserProfile />} />
-				<Route path="/profile/:userId" element={<div>Чужой рофиль</div>} />
+				<Route path="/profile/:userId" element={<UserProfile />} />
 				<Route path="/events/:eventId" element={<Event />} />
 				<Route path="/event/create" element={<EventForm />} />
 				<Route path="/event/edit/:eventId" element={<EventForm />} />

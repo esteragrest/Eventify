@@ -1,26 +1,42 @@
-import { selectUser } from '../../selectors'
-import { useSelector } from 'react-redux'
-import { Button, ButtonsContaner, ControlButton } from '../../components'
+import { EventsList, ItemMainInfo, ListItemContainer } from '../../components'
 import styles from './user-profile.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ROLE } from '../../constans'
 import { useNavigate } from 'react-router-dom'
+import { request } from '../../utils'
+import { useSelector } from 'react-redux'
+import { selectUserId, selectUserRole } from '../../selectors'
+import { UserProfileHeader } from './user-profile-header/userProfileHeader'
 
 export const UserProfile = () => {
 	const [theseActiveEvents, setTheseActiveEvents] = useState(true)
-	const  {
-		id,
-		firstName,
-		lastName,
-		birthDate,
-		email,
-		phone,
-		photo,
-		roleId,
-		countUserEvents,
-		countOfEventsAttended,
-	} = useSelector(selectUser)
+	const [activeEvents, setActiveEvents] = useState([])
+	const [archivedEvents, setArchivedEvents] = useState([])
+	const [userProfile, setUserProfile] = useState({})
+	const [userRegistrations, setUserRegistrations] = useState([])
+	const userId = useSelector(selectUserId)
+	const roleId = useSelector(selectUserRole)
 	const navigate = useNavigate()
+
+	useEffect(() => {
+		Promise.all([
+			request(`/api/users/profile`),
+			request(`/api/registrations/user/${userId}`)
+		])
+		.then(([{ user, countUserEvents, countOfEventsAttended, activeEvents, archivedEvents }, registrations]) => {
+			const userProfileData = {
+				...user,
+				countUserEvents,
+				countOfEventsAttended
+			}
+
+			setUserProfile(userProfileData)
+			setActiveEvents(activeEvents)
+			setArchivedEvents(archivedEvents)
+			setUserRegistrations(registrations)
+			})
+			.catch(() => setUserProfile(null))
+	}, [userId])
 
 	const handleActiveEvents = () => {
 		setTheseActiveEvents(!theseActiveEvents)
@@ -33,31 +49,24 @@ export const UserProfile = () => {
 
 	return (
 		<div className={styles['user-profile-container']}>
-			<div className={styles['user-profile-header']}>
-				<div className={styles['user-info-container']}>
-					<img className={styles.avatar} src={photo ? photo : '/public/img/no-photo-1.jpg'} alt={firstName} />
-					<div className={styles['user-info']}>
-						<h3>{lastName || ''} {firstName}</h3>
-						{ birthDate && <p>{birthDate}</p>}
-						<p>{email}</p>
-						{ phone && <p>{phone}</p>}
-						<div className={styles['events-info']}>
-							<p>Мероприятия: {countUserEvents}</p>
-							<p>Посещения: {countOfEventsAttended}</p>
-						</div>
-					</div>
-				</div>
-				<div className={styles['control-panel']}>
-					<Button backgroundColor='#C0A2E2' onClick={handleActiveEvents}>{ theseActiveEvents ? 'Архив мероприятий' : 'Активные мероприятие'}</Button>
-					<ButtonsContaner>
-                        <ControlButton>
-                            <img src="/public/img/edit-event.svg" alt="edit-event" />
-                        </ControlButton>
-                        <ControlButton>
-                            <img src="/public/img/delete-event.svg" alt="delete-event" />
-                        </ControlButton>
-                    </ButtonsContaner>
-				</div>
+			<UserProfileHeader {...userProfile} theseActiveEvents={theseActiveEvents} handleActiveEvents={handleActiveEvents}/>
+			<h3>{theseActiveEvents ? 'Активные мероприятие:' : 'Архив мероприятий:'}</h3>
+			{theseActiveEvents
+				? <EventsList events={activeEvents} />
+				: <EventsList events={archivedEvents} />
+			}
+			<div className={styles['user-registrations-container']}>
+			<h3>Мои регистрации:</h3>
+				{userRegistrations.map(registrationEvent =>
+					<ListItemContainer key={registrationEvent.id} to={`/events/${registrationEvent.id}`}>
+						<ItemMainInfo
+							itemName={registrationEvent.title}
+							photo={registrationEvent.photo}
+							>
+							{registrationEvent.eventDate}
+						</ItemMainInfo>
+					</ListItemContainer>
+				)}
 			</div>
 		</div>
 	)

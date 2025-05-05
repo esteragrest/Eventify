@@ -121,7 +121,7 @@ export const EventForm = () => {
     dispatch(loadEventAsync(url)).then(({ event }) => {
         if (event) {
 
-        if (checkAccessEvent(event, currentUserId, currentUserRoleId)) {
+        if (!checkAccessEvent(event, currentUserId, currentUserRoleId)) {
             navigate("/events");
             return;
         }

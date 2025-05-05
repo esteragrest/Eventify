@@ -1,0 +1,15 @@
+.list-item-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #C0A2E2;
+	padding: 12px 18px;
+	gap: 15px;
+}
+
+
+.list-item-container > * {
+	flex: 1;
+}

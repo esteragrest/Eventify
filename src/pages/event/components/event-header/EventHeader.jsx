@@ -1,5 +1,5 @@
 import { EventHeaderItem } from "./event-header-item/EventHeaderItem";
-import { Button, ButtonsContaner, ContentOverlay } from "../../../../components";
+import { Button, ContentOverlay, ControlButtons } from "../../../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CLOSE_MODAL, openModal, removeEventAsync } from "../../../../actions";
@@ -72,16 +72,12 @@ export const EventHeader = ({ event: { id, title, organizerFirstName, organizerL
             <EventHeaderItem>
                 <p>{eventDate}</p>
                 <ContentOverlay>{eventTime}</ContentOverlay>
-                {accessRights && (
-                    <ButtonsContaner>
-                        <Button onClick={() => navigate(`/event/edit/${id}`, { state: { accessLink } })}>
-                                <img src="/public/img/edit-event.svg" alt="edit-event" />
-                        </Button>
-                        <Button onClick={onDeleteEvent}>
-                            <img src="/public/img/delete-event.svg" alt="delete-event" />
-                        </Button>
-                    </ButtonsContaner>
-                )}
+                {accessRights &&
+					<ControlButtons
+					onEdit={() => navigate(`/event/edit/${id}`, { state: { accessLink } })}
+					onDelete={onDeleteEvent}
+				/>
+                }
             </EventHeaderItem>
         </div>
     );

@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectOrganizerId, selectUserId, selectUserRole } from "../../../../../selectors"
-import { Button, ContentOverlay, UserMainInfo } from "../../../../../components"
+import { Button, ContentOverlay, ItemMainInfo } from "../../../../../components"
 import { removeCommentAsync } from "../../../../../actions/remove-comment-async"
 import { ROLE } from "../../../../../constans"
 import PropTypes from "prop-types"
 import styles  from './event-comment-item.module.css'
 import { CLOSE_MODAL, openModal } from "../../../../../actions"
+import { Link } from "react-router-dom"
 
 export const EventCommentItem = (
 	{
@@ -55,10 +56,13 @@ export const EventCommentItem = (
 	const isCommentOwnerOrAdmin = userId === commentatorId || userRole === ROLE.ADMIN
 
 	return (
-		<div className={styles['comment-container']}>
-			<UserMainInfo firstName={commentatorFirstName} lastName={commentatorLastName || ''} photo={commentatorPhoto}>
+		<Link to={`/profile/${commentatorId}`} className={styles['comment-container']}>
+			<ItemMainInfo
+				itemName={`${commentatorFirstName} ${commentatorLastName || ''}`}
+				photo={commentatorPhoto}
+				>
 				{organizerId === commentatorId && <ContentOverlay><p className={styles.organizer}>Организатор</p></ContentOverlay>}
-			</UserMainInfo>
+			</ItemMainInfo>
 			<p>{content}</p>
 			<div className={styles['control-panel']}>
 				{isOrganizer && <Button onClick={() => onReply(id, `${commentatorFirstName} ${commentatorLastName || ''}`)}>Ответить</Button> }
@@ -69,7 +73,7 @@ export const EventCommentItem = (
 					</>
 				}
 			</div>
-		</div>
+		</Link>
 	)
 }
 
