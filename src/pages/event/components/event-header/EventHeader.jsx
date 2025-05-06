@@ -37,7 +37,7 @@ export const EventHeader = ({
 		dispatch(removeEventAsync(id)).then((message) => {
 			if (!message) return;
 			dispatch(CLOSE_MODAL);
-			navigate('/profile/me');
+			navigate('/profile');
 		});
 	};
 

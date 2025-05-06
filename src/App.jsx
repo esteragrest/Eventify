@@ -39,7 +39,7 @@ export const App = () => {
 			<Routes>
 				<Route path="/" element={<MainPage />} />
 				<Route path="/events" element={<Events />} />
-				<Route path="/profile/me" element={<UserProfile />} />
+				<Route path="/profile" element={<UserProfile />} />
 				<Route path="/profile/:userId" element={<UserProfile />} />
 				<Route path="/profile/edit/:userId" element={<ProfileEdit />} />
 				<Route path="/events/:eventId" element={<Event />} />

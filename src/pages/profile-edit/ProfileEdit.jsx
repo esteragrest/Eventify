@@ -67,7 +67,8 @@ export const ProfileEdit = () => {
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { firstName, lastName, birthDate, email, phone, photo } = location.state || {};
+	const { id, firstName, lastName, birthDate, email, phone, photo } =
+		location.state || {};
 
 	const {
 		register,
@@ -88,7 +89,7 @@ export const ProfileEdit = () => {
 	});
 
 	const onSubmit = (userFormData) => {
-		dispatch(updateUserAsync(userFormData)).then(() => {
+		dispatch(updateUserAsync(userFormData, id)).then(() => {
 			navigate(-1);
 			reset();
 		});

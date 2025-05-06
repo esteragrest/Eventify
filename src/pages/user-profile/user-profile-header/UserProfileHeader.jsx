@@ -19,6 +19,7 @@ export const UserProfileHeader = ({
 	countOfEventsAttended,
 	theseActiveEvents,
 	handleActiveEvents,
+	accessRights,
 }) => {
 	const userId = useSelector(selectUserId);
 	const dispatch = useDispatch();
@@ -73,22 +74,24 @@ export const UserProfileHeader = ({
 				<Button backgroundColor="#C0A2E2" onClick={handleActiveEvents}>
 					{theseActiveEvents ? 'Архив мероприятий' : 'Активные мероприятия'}
 				</Button>
-				<ControlButtons
-					onEdit={() =>
-						navigate(`/profile/edit/${id}`, {
-							state: {
-								id,
-								firstName,
-								lastName,
-								birthDate,
-								email,
-								phone,
-								photo,
-							},
-						})
-					}
-					onDelete={onDeleteEvent}
-				/>
+				{accessRights && (
+					<ControlButtons
+						onEdit={() =>
+							navigate(`/profile/edit/${id}`, {
+								state: {
+									id,
+									firstName,
+									lastName,
+									birthDate,
+									email,
+									phone,
+									photo,
+								},
+							})
+						}
+						onDelete={onDeleteEvent}
+					/>
+				)}
 			</div>
 		</div>
 	);
@@ -106,4 +109,5 @@ UserProfileHeader.propTypes = {
 	countOfEventsAttended: PropTypes.number.isRequired,
 	theseActiveEvents: PropTypes.bool.isRequired,
 	handleActiveEvents: PropTypes.func.isRequired,
+	accessRights: PropTypes.func.isRequired,
 };
