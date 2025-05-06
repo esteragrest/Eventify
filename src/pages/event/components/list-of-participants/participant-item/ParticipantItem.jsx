@@ -1,7 +1,7 @@
-import { ListItemContainer, ItemMainInfo } from '../../../../../components'
-import PropTypes from 'prop-types'
-import styles from './participant-item.module.css'
-import { OptionItem } from '../../../../../components/option-item/OptionItem'
+import { ListItemContainer, ItemMainInfo } from '../../../../../components';
+import PropTypes from 'prop-types';
+import styles from './participant-item.module.css';
+import { OptionItem } from '../../../../../components/option-item/OptionItem';
 
 export const ParticipantItem = ({
 	registration: {
@@ -11,8 +11,8 @@ export const ParticipantItem = ({
 		photo,
 		email,
 		phone,
-		participantsCount
-	}
+		participantsCount,
+	},
 }) => {
 	return (
 		<div className={styles['participant-item-container']}>
@@ -21,16 +21,19 @@ export const ParticipantItem = ({
 					itemName={`${firstName} ${lastName || ''}`}
 					photo={photo}
 					to={`/profile/${registeredUserId}`}
-					>
+				>
 					<p>{email}</p>
 				</ItemMainInfo>
-				<OptionItem optionName='Телефон:' description={phone}/>
-				<OptionItem optionName='Количество участников:' description={participantsCount}/>
+				<OptionItem optionName="Телефон:" description={phone} />
+				<OptionItem
+					optionName="Количество участников:"
+					description={participantsCount}
+				/>
 			</ListItemContainer>
 		</div>
-	)
-}
+	);
+};
 
 ParticipantItem.propTypes = {
-	registration: PropTypes.object
-}
+	registration: PropTypes.object,
+};

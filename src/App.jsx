@@ -1,13 +1,22 @@
 import { Header, Modal } from './components';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Authorization, Event, EventForm, Events, MainPage, Registration, UserProfile } from './pages';
+import {
+	Authorization,
+	Event,
+	EventForm,
+	Events,
+	MainPage,
+	ProfileEdit,
+	Registration,
+	UserProfile,
+} from './pages';
 import { useDispatch } from 'react-redux';
 import { useLayoutEffect } from 'react';
 import { setUser } from './actions';
 
 export const App = () => {
 	const location = useLocation();
-	const dispath = useDispatch()
+	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
 		const currentUserDataJSON = sessionStorage.getItem('userData');
@@ -18,8 +27,8 @@ export const App = () => {
 
 		const currentUserData = JSON.parse(currentUserDataJSON);
 
-		dispath(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }));
-	}, [dispath]);
+		dispatch(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }));
+	}, [dispatch]);
 
 	const showHeader =
 		location.pathname !== '/register' && location.pathname !== '/login';
@@ -32,7 +41,7 @@ export const App = () => {
 				<Route path="/events" element={<Events />} />
 				<Route path="/profile/me" element={<UserProfile />} />
 				<Route path="/profile/:userId" element={<UserProfile />} />
-				<Route path="/profile/edit/:userId" element={<div>Редактирование профиля</div>} />
+				<Route path="/profile/edit/:userId" element={<ProfileEdit />} />
 				<Route path="/events/:eventId" element={<Event />} />
 				<Route path="/event/create" element={<EventForm />} />
 				<Route path="/event/edit/:eventId" element={<EventForm />} />

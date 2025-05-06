@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
 	AuthLink,
 	BackgroundBanner,
 	Button,
 	ErrorMessage,
 	Form,
-	FormContainer,
+	AuthFormContainer,
 	Input,
 	TitleForm,
 } from '../../components';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './authorization.module.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -20,53 +20,55 @@ import { setUser } from '../../actions';
 
 const loginFormSchema = yup.object().shape({
 	email: emailSchema,
-	password: yup.string()
+	password: yup
+		.string()
 		.required('Введите пароль')
 		.min(6, 'Пароль должен быть не менее 6 символов')
 		.max(32, 'Пароль должен быть не более 32 символов'),
-})
+});
 
 export const Authorization = () => {
-	const [serverError, setServerError] = useState('')
-	const dispatch = useDispatch()
-	const navigate = useNavigate()
+	const [serverError, setServerError] = useState('');
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: {errors}
-	 } = useForm({
+		formState: { errors },
+	} = useForm({
 		defaultValues: {
 			email: '',
-			password: ''
-		 },
-		resolver: yupResolver(loginFormSchema)
-	  })
+			password: '',
+		},
+		resolver: yupResolver(loginFormSchema),
+	});
 
 	const onSubmit = ({ email, password }) => {
-		request('/api/auth/login', 'POST', { email, password })
-		.then(({ error, user }) => {
-			if(error) {
-				setServerError(`Ошибка запроса: ${error}`)
-				return
-			}
+		request('/api/auth/login', 'POST', { email, password }).then(
+			({ error, user }) => {
+				if (error) {
+					setServerError(`Ошибка запроса: ${error}`);
+					return;
+				}
 
-			dispatch(setUser(user))
-			sessionStorage.setItem('userData', JSON.stringify(user))
-			navigate('/')
-			reset()
-		})
-	}
+				dispatch(setUser(user));
+				sessionStorage.setItem('userData', JSON.stringify(user));
+				navigate('/');
+				reset();
+			},
+		);
+	};
 
-	const formError = errors?.email?.message || errors?.password?.message
+	const formError = errors?.email?.message || errors?.password?.message;
 
-	const errorMessage = formError || serverError
+	const errorMessage = formError || serverError;
 
 	return (
 		<div className={styles['authorization-container']}>
 			<BackgroundBanner imgUrl="/public/img/login-1.png" />
-			<FormContainer>
+			<AuthFormContainer>
 				<TitleForm>Войдите в свой аккаунт на Eventify</TitleForm>
 				<AuthLink
 					text="Ещё нет аккаунта?"
@@ -74,7 +76,12 @@ export const Authorization = () => {
 					to="/register"
 				/>
 				<Form onSubmit={handleSubmit(onSubmit)}>
-					<Input type="email" name="auth_email" placeholder="Введите email" {...register('email', { onChange: () => setServerError('') })}/>
+					<Input
+						type="email"
+						name="auth_email"
+						placeholder="Введите email"
+						{...register('email', { onChange: () => setServerError('') })}
+					/>
 					<Input
 						type="password"
 						name="auth_password"
@@ -82,9 +89,11 @@ export const Authorization = () => {
 						{...register('password', { onChange: () => setServerError('') })}
 					/>
 					{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-					<Button backgroundColor="#C0A2E2" disabled={!!formError}>Войти в аккаунт</Button>
+					<Button backgroundColor="#C0A2E2" disabled={!!formError}>
+						Войти в аккаунт
+					</Button>
 				</Form>
-			</FormContainer>
+			</AuthFormContainer>
 			<BackgroundBanner imgUrl="/public/img/login-2.png" />
 			<img
 				className={styles['mini-banner']}

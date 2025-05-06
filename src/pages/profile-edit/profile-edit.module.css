@@ -1,0 +1,14 @@
+.profile-edit-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	gap: 15px;
+	padding: 20px 90px;
+	margin-top: 40px;
+}
+
+.profile-edit-container form {
+	width: 35%;
+}
