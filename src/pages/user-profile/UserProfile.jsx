@@ -22,6 +22,10 @@ export const UserProfile = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		if (!isOtherUser && userRole === ROLE.GUEST) {
+			navigate('/login');
+		}
+
 		const profileUrl = isOtherUser
 			? `/api/users/profile/${params.userId}`
 			: `/api/users/profile`;
@@ -55,12 +59,7 @@ export const UserProfile = () => {
 				})
 				.catch(() => setUserRegistrations([]));
 		}
-	}, [userId, isOtherUser, params.userId]);
-
-	if (userRole === ROLE.GUEST) {
-		//додумать
-		navigate('/login');
-	}
+	}, [userId, isOtherUser, params.userId, navigate, userRole]);
 
 	const accessRights = checkAccessRights(userProfile?.id, userId, userRole);
 
