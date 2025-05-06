@@ -15,7 +15,7 @@ import {
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constans';
+import { AGE_LIMIT_TYPE, PAYMENT_TYPE } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEvent, selectUserId, selectUserRole } from '../../selectors';
 import { loadEventAsync, RESET_EVENT_DATA, saveEventAsync } from '../../actions';

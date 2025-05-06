@@ -9,6 +9,7 @@ import {
 	ProfileEdit,
 	Registration,
 	UserProfile,
+	Users,
 } from './pages';
 import { useDispatch } from 'react-redux';
 import { useLayoutEffect } from 'react';
@@ -47,7 +48,7 @@ export const App = () => {
 				<Route path="/event/edit/:eventId" element={<EventForm />} />
 				<Route path="/register" element={<Registration />} />
 				<Route path="/login" element={<Authorization />} />
-				<Route path="/users" element={<div>Все пользователи</div>} />
+				<Route path="/users" element={<Users />} />
 				<Route path="*" element={<div>Error 404</div>} />
 			</Routes>
 			<Modal />

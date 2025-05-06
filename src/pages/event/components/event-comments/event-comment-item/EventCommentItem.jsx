@@ -56,6 +56,7 @@ export const EventCommentItem = ({
 			<ItemMainInfo
 				itemName={`${commentatorFirstName} ${commentatorLastName || ''}`}
 				photo={commentatorPhoto}
+				to={`/profile/${commentatorId}`}
 			>
 				{organizerId === commentatorId && (
 					<ContentOverlay>

@@ -1,6 +1,6 @@
 import { ItemMainInfo, ListItemContainer } from '../../components';
 import { useEffect, useState } from 'react';
-import { ROLE } from '../../constans';
+import { ROLE } from '../../constants';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import { checkAccessRights, request } from '../../utils';
 import { useSelector } from 'react-redux';
@@ -80,13 +80,11 @@ export const UserProfile = () => {
 				<div className={styles['user-registrations-container']}>
 					<h3>Мои регистрации:</h3>
 					{userRegistrations.map((registrationEvent) => (
-						<ListItemContainer
-							key={registrationEvent.id}
-							to={`/events/${registrationEvent.id}`}
-						>
+						<ListItemContainer key={registrationEvent.id}>
 							<ItemMainInfo
 								itemName={registrationEvent.title}
 								photo={registrationEvent.photo}
+								to={`/events/${registrationEvent.id}`}
 							>
 								{registrationEvent.eventDate}
 							</ItemMainInfo>

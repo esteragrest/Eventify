@@ -1,0 +1,10 @@
+.update-role {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.save {
+	width: 25px;
+	height: auto;
+}

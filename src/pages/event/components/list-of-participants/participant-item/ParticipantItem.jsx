@@ -16,7 +16,7 @@ export const ParticipantItem = ({
 }) => {
 	return (
 		<div className={styles['participant-item-container']}>
-			<ListItemContainer to={`/profile/${registeredUserId}`}>
+			<ListItemContainer>
 				<ItemMainInfo
 					itemName={`${firstName} ${lastName || ''}`}
 					photo={photo}
