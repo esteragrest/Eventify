@@ -6,3 +6,4 @@ export * from './check-owner';
 export * from './is-authorized';
 export * from './get-event-url';
 export * from './convert-date';
+export * from './check-admin';

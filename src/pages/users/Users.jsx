@@ -3,10 +3,10 @@ import { selectIsLoading, selectUserRole } from '../../selectors';
 import { useEffect, useState } from 'react';
 import { request } from '../../utils';
 import { UserRow } from './user-row/UserRow';
-import styles from './users.module.css';
-import { checkAdmin } from './utils/check-admin';
+import { checkAdmin } from '../../utils';
 import { CLOSE_MODAL, removeUserAsync, setIsLoading } from '../../actions';
 import { Loader } from '../../components';
+import styles from './users.module.css';
 
 export const Users = () => {
 	const [users, setUsers] = useState([]);
@@ -16,10 +16,10 @@ export const Users = () => {
 	const isLoading = useSelector(selectIsLoading);
 	const userRoleId = useSelector(selectUserRole);
 
+	const isAdmin = checkAdmin(userRoleId);
+
 	useEffect(() => {
-		if (!checkAdmin(userRoleId)) {
-			return;
-		}
+		if (!isAdmin) return;
 
 		dispatch(setIsLoading(true));
 
@@ -40,7 +40,7 @@ export const Users = () => {
 				setRoles([]);
 			})
 			.finally(() => dispatch(setIsLoading(false)));
-	}, [userRoleId, shouldUpdateUsers, dispatch]);
+	}, [isAdmin, shouldUpdateUsers, dispatch]);
 
 	const onUserRemove = (userId) => {
 		if (!checkAdmin(userRoleId)) {
