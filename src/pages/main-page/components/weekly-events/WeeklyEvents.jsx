@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
-import { EventsList } from '../../../../components';
+import { EventsList, Loader } from '../../../../components';
 import styles from './weekly-events.module.css';
 import { request } from '../../../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoading } from '../../../../selectors';
+import { setIsLoading } from '../../../../actions';
 
 export const WeeklyEvents = () => {
-	const [weeklyEvents, setWeeklyEvents] = useState([])
+	const [weeklyEvents, setWeeklyEvents] = useState([]);
+	const isLoading = useSelector(selectIsLoading);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		request('/api/events/weekly-events', 'GET').then((events) => {
-			setWeeklyEvents(events)
-		})
-	}, [])
+		dispatch(setIsLoading(true));
+
+		request('/api/events/weekly-events', 'GET')
+			.then((events) => {
+				setWeeklyEvents(events);
+			})
+			.finally(() => dispatch(setIsLoading(false)));
+	}, [dispatch]);
 
 	return (
 		<div className={styles['weekly-events-container']}>
@@ -19,7 +28,7 @@ export const WeeklyEvents = () => {
 				Мероприятия, которые пройдут в ближайшую неделю и Вы можете на них
 				зарегистрироваться!
 			</p>
-			<EventsList events={weeklyEvents} />
+			{isLoading ? <Loader /> : <EventsList events={weeklyEvents} />}
 		</div>
 	);
 };

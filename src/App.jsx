@@ -13,13 +13,14 @@ import {
 } from './pages';
 import { useDispatch } from 'react-redux';
 import { useLayoutEffect } from 'react';
-import { setUser } from './actions';
+import { setIsLoading, setUser } from './actions';
 
 export const App = () => {
 	const location = useLocation();
 	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
+		dispatch(setIsLoading(true));
 		const currentUserDataJSON = sessionStorage.getItem('userData');
 
 		if (!currentUserDataJSON) {
@@ -29,6 +30,7 @@ export const App = () => {
 		const currentUserData = JSON.parse(currentUserDataJSON);
 
 		dispatch(setUser({ ...currentUserData, roleId: Number(currentUserData.roleId) }));
+		dispatch(setIsLoading(false));
 	}, [dispatch]);
 
 	const showHeader =

@@ -21,3 +21,4 @@ export * from './custom-checkbox/CustomCheckbox';
 export * from './list-item-container/ListItemContainer';
 export * from './control-buttons/ControlButtons';
 export * from './delete-buttons/DeleteButtons';
+export * from './loader/Loader';
