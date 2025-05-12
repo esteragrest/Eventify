@@ -1,8 +1,11 @@
 import { request } from '../utils';
 import { openModal } from './open-modal';
+import { setIsLoading } from './set-is-loading';
 import { setUser } from './set-user';
 
 export const updateUserAsync = (updatedUserData, id) => (dispatch) => {
+	dispatch(setIsLoading(true));
+
 	const userFormData = Object.keys(updatedUserData).reduce((userFormData, key) => {
 		const value = updatedUserData[key];
 		userFormData.append(key, value);
@@ -24,5 +27,6 @@ export const updateUserAsync = (updatedUserData, id) => (dispatch) => {
 					children: error,
 				}),
 			);
-		});
+		})
+		.finally(() => dispatch(setIsLoading(false)));
 };

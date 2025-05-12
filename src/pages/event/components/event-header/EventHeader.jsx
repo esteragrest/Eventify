@@ -25,7 +25,6 @@ export const EventHeader = ({
 	useEffect(() => {
 		if (!isPastEvent) return;
 
-		//можно ли так
 		if (!id) return;
 
 		request(`/api/ratings/event/${id}/average`)

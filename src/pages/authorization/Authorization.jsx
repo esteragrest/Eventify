@@ -8,15 +8,17 @@ import {
 	AuthFormContainer,
 	Input,
 	TitleForm,
+	Loader,
 } from '../../components';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './authorization.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { request, emailSchema } from '../../utils';
-import { setUser } from '../../actions';
+import { setIsLoading, setUser } from '../../actions';
+import { selectIsLoading } from '../../selectors';
+import styles from './authorization.module.css';
 
 const loginFormSchema = yup.object().shape({
 	email: emailSchema,
@@ -29,6 +31,7 @@ const loginFormSchema = yup.object().shape({
 
 export const Authorization = () => {
 	const [serverError, setServerError] = useState('');
+	const isLoading = useSelector(selectIsLoading);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -46,8 +49,10 @@ export const Authorization = () => {
 	});
 
 	const onSubmit = ({ email, password }) => {
-		request('/api/auth/login', 'POST', { email, password }).then(
-			({ error, user }) => {
+		dispatch(setIsLoading(true));
+
+		request('/api/auth/login', 'POST', { email, password })
+			.then(({ error, user }) => {
 				if (error) {
 					setServerError(`Ошибка запроса: ${error}`);
 					return;
@@ -57,8 +62,8 @@ export const Authorization = () => {
 				sessionStorage.setItem('userData', JSON.stringify(user));
 				navigate('/');
 				reset();
-			},
-		);
+			})
+			.finally(() => dispatch(setIsLoading(false)));
 	};
 
 	const formError = errors?.email?.message || errors?.password?.message;
@@ -67,39 +72,49 @@ export const Authorization = () => {
 
 	return (
 		<div className={styles['authorization-container']}>
-			<BackgroundBanner imgUrl="/public/img/login-1.png" />
-			<AuthFormContainer>
-				<TitleForm>Войдите в свой аккаунт на Eventify</TitleForm>
-				<AuthLink
-					text="Ещё нет аккаунта?"
-					linkText="Зарегистрируйтесь!"
-					to="/register"
-				/>
-				<Form onSubmit={handleSubmit(onSubmit)}>
-					<Input
-						type="email"
-						name="auth_email"
-						placeholder="Введите email"
-						{...register('email', { onChange: () => setServerError('') })}
+			{isLoading ? (
+				<Loader />
+			) : (
+				<>
+					<BackgroundBanner imgUrl="/public/img/login-1.png" />
+					<AuthFormContainer>
+						<TitleForm>Войдите в свой аккаунт на Eventify</TitleForm>
+						<AuthLink
+							text="Ещё нет аккаунта?"
+							linkText="Зарегистрируйтесь!"
+							to="/register"
+						/>
+						<Form onSubmit={handleSubmit(onSubmit)}>
+							<Input
+								type="email"
+								name="auth_email"
+								placeholder="Введите email"
+								{...register('email', {
+									onChange: () => setServerError(''),
+								})}
+							/>
+							<Input
+								type="password"
+								name="auth_password"
+								placeholder="Введите пароль"
+								{...register('password', {
+									onChange: () => setServerError(''),
+								})}
+							/>
+							{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+							<Button backgroundColor="#C0A2E2" disabled={!!formError}>
+								Войти в аккаунт
+							</Button>
+						</Form>
+					</AuthFormContainer>
+					<BackgroundBanner imgUrl="/public/img/login-2.png" />
+					<img
+						className={styles['mini-banner']}
+						src="/public/img/login.png"
+						alt="login"
 					/>
-					<Input
-						type="password"
-						name="auth_password"
-						placeholder="Введите пароль"
-						{...register('password', { onChange: () => setServerError('') })}
-					/>
-					{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-					<Button backgroundColor="#C0A2E2" disabled={!!formError}>
-						Войти в аккаунт
-					</Button>
-				</Form>
-			</AuthFormContainer>
-			<BackgroundBanner imgUrl="/public/img/login-2.png" />
-			<img
-				className={styles['mini-banner']}
-				src="/public/img/login.png"
-				alt="login"
-			/>
+				</>
+			)}
 		</div>
 	);
 };

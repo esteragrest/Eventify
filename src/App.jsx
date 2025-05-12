@@ -24,6 +24,7 @@ export const App = () => {
 		const currentUserDataJSON = sessionStorage.getItem('userData');
 
 		if (!currentUserDataJSON) {
+			dispatch(setIsLoading(false));
 			return;
 		}
 

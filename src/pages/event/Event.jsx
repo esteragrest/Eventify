@@ -9,12 +9,18 @@ import {
 	ListOfParticipants,
 	Rating,
 } from './components';
+import { Loader } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEvent, selectUserId, selectUserRole } from '../../selectors';
+import {
+	selectEvent,
+	selectIsLoading,
+	selectUserId,
+	selectUserRole,
+} from '../../selectors';
 import { loadEventAsync, RESET_EVENT_DATA } from '../../actions';
 import { checkAccessRights, checkOwner, getEventUrl, isAuthorized } from '../../utils';
-import styles from './event.module.css';
 import { hasEventPassed } from './utils/has-event-passed';
+import styles from './event.module.css';
 
 export const Event = () => {
 	const params = useParams();
@@ -23,6 +29,7 @@ export const Event = () => {
 	const event = useSelector(selectEvent);
 	const userRoleId = useSelector(selectUserRole);
 	const userId = useSelector(selectUserId);
+	const isLoading = useSelector(selectIsLoading);
 	const [parentId, setParentId] = useState(null);
 	const [commentatorName, setCommentatorName] = useState('');
 	const dispatch = useDispatch();
@@ -47,12 +54,14 @@ export const Event = () => {
 	const isAuth = isAuthorized(userRoleId);
 	const accessRights = checkAccessRights(event.organizerId, userId, userRoleId);
 	const isOwner = checkOwner(event.organizerId, userId);
-	const isPastEvent = hasEventPassed(event.eventDate);
+	const isPastEvent = event.eventDate ? hasEventPassed(event.eventDate) : false;
 
 	return (
 		<div className={styles['event-container']}>
 			{error ? (
 				<div>{error}</div>
+			) : isLoading ? ( 
+				<Loader />
 			) : (
 				<>
 					<EventHeader event={event} accessRights={accessRights} />
@@ -60,12 +69,10 @@ export const Event = () => {
 						<EventContent event={event} />
 						<div className={styles['event-interactive-area']}>
 							{isAuth && (
-								<>
-									<CommentsForm
-										parentId={parentId}
-										commentatorName={commentatorName}
-									/>
-								</>
+								<CommentsForm
+									parentId={parentId}
+									commentatorName={commentatorName}
+								/>
 							)}
 							<EventComments
 								comments={event.comments}

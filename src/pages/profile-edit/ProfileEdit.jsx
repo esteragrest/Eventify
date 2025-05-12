@@ -13,10 +13,9 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './profile-edit.module.css';
-import { emailSchema, firstNameSchema, lastNameSchema } from '../../utils';
+import { convertDate, emailSchema, firstNameSchema, lastNameSchema } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { updateUserAsync } from '../../actions';
-import { convertDate } from './utils/convert-date';
 
 const userDataShema = yup.object().shape({
 	photo: yup

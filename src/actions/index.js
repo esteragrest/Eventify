@@ -5,7 +5,6 @@ export * from './set-event-data';
 export * from './reset-event-data';
 export * from './load-event-async';
 export * from './add-comment-async';
-export * from './update-comment-async';
 export * from './add-registration-async';
 export * from './open-modal';
 export * from './close-modal';

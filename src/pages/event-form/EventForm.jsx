@@ -22,7 +22,7 @@ import { loadEventAsync, RESET_EVENT_DATA, saveEventAsync } from '../../actions'
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { checkAccessEvent } from './utils/check-access-event';
-import { getEventUrl } from '../../utils';
+import { convertDate, getEventUrl } from '../../utils';
 import styles from './event-form.module.css';
 
 const eventSchema = yup.object().shape({
@@ -134,7 +134,7 @@ export const EventForm = () => {
 					photo: event.photo || '',
 					title: event.title || '',
 					description: event.description || '',
-					event_date: event.eventDate || '',
+					event_date: convertDate(event.eventDate) || '',
 					event_time: event.eventTime || '',
 					age_limit: event.ageLimit || '',
 					payment: event.payment || '',
