@@ -1,4 +1,4 @@
-import { ACTION_TYPE } from '../actions'
+import { ACTION_TYPE } from '../actions';
 
 const initialEventState = {
 	id: null,
@@ -15,41 +15,37 @@ const initialEventState = {
 	ageLimit: null,
 	maxParticipants: null,
 	photo: null,
-	comments: []
-}
+	comments: [],
+};
 
 export const eventReducer = (state = initialEventState, action) => {
 	switch (action.type) {
 		case ACTION_TYPE.SET_EVENT_DATA: {
 			return {
 				...state,
-				...action.payload
-			}
+				...action.payload,
+			};
 		}
 		case ACTION_TYPE.RESET_EVENT_DATA: {
-			return initialEventState
+			return initialEventState;
 		}
 		case ACTION_TYPE.ADD_COMMENT: {
 			return {
 				...state,
-				comments: [ action.payload, ...state.comments]
-			}
+				comments: [action.payload, ...state.comments],
+			};
 		}
 		case ACTION_TYPE.REMOVE_COMMENT: {
 			return {
 				...state,
-				comments: state.comments.filter(comment => comment.id !== action.payload && comment.parentId !== action.payload)
-			}
-		}
-		case ACTION_TYPE.UPDATE_COMMENT: {
-			return {
-				...state,
-				comments: state.comments.map(comment =>
-					comment.id === action.payload.id ? action.payload : comment
-				)
-			}
+				comments: state.comments.filter(
+					(comment) =>
+						comment.id !== action.payload &&
+						comment.parentId !== action.payload,
+				),
+			};
 		}
 		default:
-			return state
+			return state;
 	}
-}
+};

@@ -17,7 +17,7 @@ export const Rating = () => {
 
 	useEffect(() => {
 		if (!eventId) return
-		
+
 		Promise.all([
 			request(`/api/registrations/registrationForEvent/${eventId}`),
 			request(`/api/ratings/userRating/event/${eventId}`)
