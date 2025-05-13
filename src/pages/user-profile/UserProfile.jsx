@@ -1,4 +1,9 @@
-import { ItemMainInfo, ListItemContainer, Loader } from '../../components';
+import {
+	ItemMainInfo,
+	ListItemContainer,
+	Loader,
+	PrivateContent,
+} from '../../components';
 import { useEffect, useState } from 'react';
 import { useMatch, useNavigate, useParams } from 'react-router-dom';
 import { checkAccessRights, isAuthorized, request } from '../../utils';
@@ -15,6 +20,7 @@ export const UserProfile = () => {
 	const [archivedEvents, setArchivedEvents] = useState([]);
 	const [userProfile, setUserProfile] = useState(null);
 	const [userRegistrations, setUserRegistrations] = useState([]);
+	const [serverError, setServerError] = useState('');
 	const isOtherUser = !!useMatch('/profile/:userId');
 	const params = useParams();
 	const userId = useSelector(selectUserId);
@@ -41,26 +47,25 @@ export const UserProfile = () => {
 		dispatch(setIsLoading(true));
 
 		request(profileUrl)
-			.then(
-				({
-					user,
-					countUserEvents,
-					countOfEventsAttended,
-					activeEvents,
-					archivedEvents,
-				}) => {
+			.then((data) => {
+				console.log('Данные с сервера:', data);
+				if (data.error) {
+					setServerError(data.error);
+				} else {
 					const userProfileData = {
-						...user,
-						countUserEvents,
-						countOfEventsAttended,
+						...data.user,
+						countUserEvents: data.countUserEvents,
+						countOfEventsAttended: data.countOfEventsAttended,
 					};
-
 					setUserProfile(userProfileData);
-					setActiveEvents(activeEvents);
-					setArchivedEvents(archivedEvents);
-				},
-			)
-			.catch(() => setUserProfile(null));
+					setActiveEvents(data.activeEvents);
+					setArchivedEvents(data.archivedEvents);
+				}
+			})
+			.catch((err) => {
+				console.error('Ошибка запроса:', err);
+				setServerError(err.error);
+			});
 
 		if (!isOtherUser) {
 			request(`/api/registrations/user/${userId}`)
@@ -84,46 +89,48 @@ export const UserProfile = () => {
 	const accessRights = checkAccessRights(userProfile?.id, userId, userRole);
 
 	return (
-		<div className={styles['user-profile-container']}>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<>
-					{userProfile && userProfile.id && userProfile.firstName && (
-						<UserProfileHeader
-							{...userProfile}
+		<PrivateContent error={serverError}>
+			<div className={styles['user-profile-container']}>
+				{isLoading ? (
+					<Loader />
+				) : (
+					<>
+						{userProfile && userProfile.id && userProfile.firstName && (
+							<UserProfileHeader
+								{...userProfile}
+								theseActiveEvents={theseActiveEvents}
+								handleActiveEvents={() =>
+									setTheseActiveEvents(!theseActiveEvents)
+								}
+								accessRights={accessRights}
+							/>
+						)}
+
+						<UserEvents
 							theseActiveEvents={theseActiveEvents}
-							handleActiveEvents={() =>
-								setTheseActiveEvents(!theseActiveEvents)
-							}
-							accessRights={accessRights}
+							activeEvents={activeEvents}
+							archivedEvents={archivedEvents}
 						/>
-					)}
 
-					<UserEvents
-						theseActiveEvents={theseActiveEvents}
-						activeEvents={activeEvents}
-						archivedEvents={archivedEvents}
-					/>
-
-					{accessRights && userRegistrations.length > 0 && (
-						<div className={styles['user-registrations-container']}>
-							<h3>Мои регистрации:</h3>
-							{userRegistrations.map((registrationEvent) => (
-								<ListItemContainer key={registrationEvent.id}>
-									<ItemMainInfo
-										itemName={registrationEvent.title}
-										photo={registrationEvent.photo}
-										to={`/events/${registrationEvent.id}`}
-									>
-										{registrationEvent.eventDate}
-									</ItemMainInfo>
-								</ListItemContainer>
-							))}
-						</div>
-					)}
-				</>
-			)}
-		</div>
+						{accessRights && userRegistrations.length > 0 && (
+							<div className={styles['user-registrations-container']}>
+								<h3>Мои регистрации:</h3>
+								{userRegistrations.map((registrationEvent) => (
+									<ListItemContainer key={registrationEvent.id}>
+										<ItemMainInfo
+											itemName={registrationEvent.title}
+											photo={registrationEvent.photo}
+											to={`/events/${registrationEvent.id}`}
+										>
+											{registrationEvent.eventDate}
+										</ItemMainInfo>
+									</ListItemContainer>
+								))}
+							</div>
+						)}
+					</>
+				)}
+			</div>
+		</PrivateContent>
 	);
 };
