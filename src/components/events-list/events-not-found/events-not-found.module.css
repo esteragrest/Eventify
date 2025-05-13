@@ -1,3 +1,55 @@
-.no-events {
-	font-weight: 600;
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.events-not-found-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 100%;
+	padding: 40px;
+	gap: 10px;
+	animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-5px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+.events-not-found-container img {
+	width: 150px;
+	animation: float 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.events-not-found-container button {
+	animation: pulse 1.5s infinite ease-in-out;
 }
