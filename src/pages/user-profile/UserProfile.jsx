@@ -48,7 +48,6 @@ export const UserProfile = () => {
 
 		request(profileUrl)
 			.then((data) => {
-				console.log('Данные с сервера:', data);
 				if (data.error) {
 					setServerError(data.error);
 				} else {
@@ -63,7 +62,6 @@ export const UserProfile = () => {
 				}
 			})
 			.catch((err) => {
-				console.error('Ошибка запроса:', err);
 				setServerError(err.error);
 			});
 

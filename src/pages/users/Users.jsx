@@ -5,13 +5,14 @@ import { request } from '../../utils';
 import { UserRow } from './user-row/UserRow';
 import { checkAdmin } from '../../utils';
 import { CLOSE_MODAL, removeUserAsync, setIsLoading } from '../../actions';
-import { Loader } from '../../components';
+import { Loader, PrivateContent } from '../../components';
 import styles from './users.module.css';
 
 export const Users = () => {
 	const [users, setUsers] = useState([]);
 	const [roles, setRoles] = useState([]);
 	const [shouldUpdateUsers, setShouldUpdateUsers] = useState(false);
+	const [accessError, setAccessError] = useState('');
 	const dispatch = useDispatch();
 	const isLoading = useSelector(selectIsLoading);
 	const userRoleId = useSelector(selectUserRole);
@@ -19,7 +20,10 @@ export const Users = () => {
 	const isAdmin = checkAdmin(userRoleId);
 
 	useEffect(() => {
-		if (!isAdmin) return;
+		if (!isAdmin) {
+			setAccessError("Forbidden: You don't have access to this page.");
+			return;
+		}
 
 		dispatch(setIsLoading(true));
 
@@ -54,35 +58,37 @@ export const Users = () => {
 	};
 
 	return (
-		<div className={styles['users-container']}>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<>
-					<h3>Пользователи:</h3>
-					<p>
-						На этой странице вы можете увидеть всех пользователей данного
-						приложения
-					</p>
-					<div className={styles['users-list']}>
-						{users.map(
-							({ id, firstName, lastName, email, photo, roleId }) => (
-								<UserRow
-									key={id}
-									id={id}
-									firstName={firstName}
-									lastName={lastName}
-									email={email}
-									photo={photo}
-									roleId={roleId}
-									roles={roles}
-									onUserRemove={() => onUserRemove(id)}
-								/>
-							),
-						)}
-					</div>
-				</>
-			)}
-		</div>
+		<PrivateContent error={accessError}>
+			<div className={styles['users-container']}>
+				{isLoading ? (
+					<Loader />
+				) : (
+					<>
+						<h3>Пользователи:</h3>
+						<p>
+							На этой странице вы можете увидеть всех пользователей данного
+							приложения
+						</p>
+						<div className={styles['users-list']}>
+							{users.map(
+								({ id, firstName, lastName, email, photo, roleId }) => (
+									<UserRow
+										key={id}
+										id={id}
+										firstName={firstName}
+										lastName={lastName}
+										email={email}
+										photo={photo}
+										roleId={roleId}
+										roles={roles}
+										onUserRemove={() => onUserRemove(id)}
+									/>
+								),
+							)}
+						</div>
+					</>
+				)}
+			</div>
+		</PrivateContent>
 	);
 };

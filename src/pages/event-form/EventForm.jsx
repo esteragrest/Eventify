@@ -144,16 +144,7 @@ export const EventForm = () => {
 				});
 			}
 		});
-	}, [
-		isEditing,
-		params,
-		url,
-		dispatch,
-		reset,
-		navigate,
-		currentUserId,
-		currentUserRoleId,
-	]);
+	}, [isEditing, url, dispatch, reset, navigate, currentUserId, currentUserRoleId]);
 
 	const onSubmit = (eventFormData) => {
 		const serverUrl = isEditing ? `/api/events/${event.id}` : '/api/events';
