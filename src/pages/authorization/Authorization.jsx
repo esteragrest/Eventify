@@ -11,23 +11,14 @@ import {
 	Loader,
 } from '../../components';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { request, emailSchema } from '../../utils';
+import { request } from '../../utils';
 import { setIsLoading, setUser } from '../../actions';
 import { selectIsLoading } from '../../selectors';
+import { loginValidationSchema } from '../../validations';
 import styles from './authorization.module.css';
-
-const loginFormSchema = yup.object().shape({
-	email: emailSchema,
-	password: yup
-		.string()
-		.required('Введите пароль')
-		.min(6, 'Пароль должен быть не менее 6 символов')
-		.max(32, 'Пароль должен быть не более 32 символов'),
-});
 
 export const Authorization = () => {
 	const [serverError, setServerError] = useState('');
@@ -45,7 +36,7 @@ export const Authorization = () => {
 			email: '',
 			password: '',
 		},
-		resolver: yupResolver(loginFormSchema),
+		resolver: yupResolver(loginValidationSchema),
 	});
 
 	const onSubmit = ({ email, password }) => {

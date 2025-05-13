@@ -11,30 +11,15 @@ import {
 	TitleForm,
 	Loader,
 } from '../../components';
-import { request, firstNameSchema, lastNameSchema, emailSchema } from '../../utils';
+import { request } from '../../utils';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './registration.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoading, setUser } from '../../actions';
 import { useNavigate } from 'react-router-dom';
 import { selectIsLoading } from '../../selectors';
-
-const registerFormSchema = yup.object().shape({
-	firstName: firstNameSchema,
-	lastName: lastNameSchema,
-	email: emailSchema,
-	password: yup
-		.string()
-		.required('Введите пароль')
-		.min(6, 'Пароль должен быть не менее 6 символов')
-		.max(32, 'Пароль должен быть не более 32 символов'),
-	confirmPassword: yup
-		.string()
-		.required('Повторите пароль')
-		.oneOf([yup.ref('password')], 'Пароли должны совпадать'),
-});
+import { registerValidationSchema } from '../../validations';
+import styles from './registration.module.css';
 
 export const Registration = () => {
 	const [serverError, setServerError] = useState('');
@@ -55,7 +40,7 @@ export const Registration = () => {
 			password: '',
 			confirmPassword: '',
 		},
-		resolver: yupResolver(registerFormSchema),
+		resolver: yupResolver(registerValidationSchema),
 	});
 	const onSubmit = ({ firstName, lastName, email, password }) => {
 		dispath(setIsLoading(true));

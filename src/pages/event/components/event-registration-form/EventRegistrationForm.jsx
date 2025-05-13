@@ -1,34 +1,12 @@
 import { Button, ErrorMessage, FormRow, Input } from '../../../../components';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { emailSchema, firstNameSchema, lastNameSchema } from '../../../../utils';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEventId, selectUserId } from '../../../../selectors';
-import styles from './event-registration-form.module.css';
 import { addRegistrationAsync } from '../../../../actions';
-
-const eventRegistrationFormSchema = yup.object().shape({
-	firstName: firstNameSchema,
-	lastName: lastNameSchema,
-	email: emailSchema,
-	phone: yup
-		.string()
-		.required('Укажите номер телефона')
-		.matches(
-			/^\+?\d{10,15}$/,
-			'Введите корректный номер телефона в международном формате (+1234567890)',
-		),
-	participants: yup
-		.number()
-		.transform((value, originalValue) =>
-			originalValue.trim() === '' ? undefined : value,
-		)
-		.required('Укажите количество участников')
-		.min(1, 'Минимальное количество участников — 1')
-		.max(100, 'Максимальное количество участников — 100'),
-});
+import { eventRegistrationValidationSchema } from '../../../../validations'
+import styles from './event-registration-form.module.css';
 
 export const EventRegistrationForm = () => {
 	const [serverError, setServerError] = useState('');
@@ -49,7 +27,7 @@ export const EventRegistrationForm = () => {
 			phone: '',
 			participants: null,
 		},
-		resolver: yupResolver(eventRegistrationFormSchema),
+		resolver: yupResolver(eventRegistrationValidationSchema),
 	});
 
 	const onSubmit = ({ firstName, lastName, email, phone, participants }) => {

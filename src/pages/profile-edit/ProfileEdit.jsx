@@ -10,57 +10,12 @@ import {
 	TitleForm,
 } from '../../components';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './profile-edit.module.css';
-import { convertDate, emailSchema, firstNameSchema, lastNameSchema } from '../../utils';
+import { convertDate } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { updateUserAsync } from '../../actions';
-
-const userDataShema = yup.object().shape({
-	photo: yup
-		.mixed()
-		.required('Фото обязательно')
-		.test(
-			'isValidFileOrUrl',
-			'Файл должен быть изображением (jpg, jpeg, png) или ссылкой',
-			(value) => {
-				if (!value) return false;
-
-				if (typeof value === 'string') {
-					return value.startsWith('http://') || value.startsWith('https://');
-				}
-
-				return ['image/jpeg', 'image/jpg', 'image/png'].includes(value.type);
-			},
-		),
-	birth_date: yup
-		.string()
-		.test('isValidDate', 'Дата должна быть в формате YYYY-MM-DD', (value) => {
-			if (!value) return true;
-			return /^\d{4}-\d{2}-\d{2}$/.test(value);
-		})
-		.test('isPastDate', 'Дата рождения не может быть в будущем', (value) => {
-			if (!value) return true;
-			const selectedDate = new Date(value);
-			const today = new Date();
-			return selectedDate <= today;
-		}),
-	first_name: firstNameSchema,
-	last_name: lastNameSchema,
-	email: emailSchema,
-	phone: yup
-		.string()
-		.required('Укажите номер телефона')
-		.test(
-			'isValidPhone',
-			'Введите корректный номер телефона в международном формате (+1234567890)',
-			(value) => {
-				if (!value) return true;
-				return /^\+?\d{10,15}$/.test(value);
-			},
-		),
-});
+import { userDataValidationShema } from '../../validations';
+import styles from './profile-edit.module.css';
 
 export const ProfileEdit = () => {
 	const location = useLocation();
@@ -84,7 +39,7 @@ export const ProfileEdit = () => {
 			email: email,
 			phone: phone,
 		},
-		resolver: yupResolver(userDataShema),
+		resolver: yupResolver(userDataValidationShema),
 	});
 
 	const onSubmit = (userFormData) => {

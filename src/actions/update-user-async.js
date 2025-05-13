@@ -6,11 +6,14 @@ import { setUser } from './set-user';
 export const updateUserAsync = (updatedUserData, id) => (dispatch) => {
 	dispatch(setIsLoading(true));
 
-	const userFormData = Object.keys(updatedUserData).reduce((userFormData, key) => {
+	const userFormData = Object.keys(updatedUserData).reduce((formData, key) => {
 		const value = updatedUserData[key];
-		userFormData.append(key, value);
 
-		return userFormData;
+		if (value !== null && value !== '') {
+			formData.append(key, value);
+		}
+
+		return formData;
 	}, new FormData());
 
 	return request(`/api/users/edit/${id}`, 'PUT', userFormData)
