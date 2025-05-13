@@ -9,7 +9,7 @@ import {
 	ListOfParticipants,
 	Rating,
 } from './components';
-import { Loader } from '../../components';
+import { Loader, PrivateContent } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	selectEvent,
@@ -41,8 +41,12 @@ export const Event = () => {
 	useEffect(() => {
 		const url = getEventUrl(params, location);
 
-		dispatch(loadEventAsync(url)).then((eventData) => {
-			setError(eventData.error);
+		dispatch(loadEventAsync(url)).then((eventDate) => {
+			if (eventDate.error) {
+				setError(eventDate.error);
+			} else {
+				setError('');
+			}
 		});
 	}, [params, location, dispatch]);
 
@@ -57,36 +61,36 @@ export const Event = () => {
 	const isPastEvent = event.eventDate ? hasEventPassed(event.eventDate) : false;
 
 	return (
-		<div className={styles['event-container']}>
-			{error ? (
-				<div>{error}</div>
-			) : isLoading ? ( 
-				<Loader />
-			) : (
-				<>
-					<EventHeader event={event} accessRights={accessRights} />
-					<div className={styles['event-overview']}>
-						<EventContent event={event} />
-						<div className={styles['event-interactive-area']}>
-							{isAuth && (
-								<CommentsForm
-									parentId={parentId}
-									commentatorName={commentatorName}
+		<PrivateContent error={error}>
+			<div className={styles['event-container']}>
+				{isLoading ? (
+					<Loader />
+				) : (
+					<>
+						<EventHeader event={event} accessRights={accessRights} />
+						<div className={styles['event-overview']}>
+							<EventContent event={event} />
+							<div className={styles['event-interactive-area']}>
+								{isAuth && (
+									<CommentsForm
+										parentId={parentId}
+										commentatorName={commentatorName}
+									/>
+								)}
+								<EventComments
+									comments={event.comments}
+									onReply={handleReply}
 								/>
-							)}
-							<EventComments
-								comments={event.comments}
-								onReply={handleReply}
-							/>
-							{isAuth && !isOwner && !isPastEvent && (
-								<EventRegistrationForm />
-							)}
-							{isAuth && isPastEvent && <Rating />}
+								{isAuth && !isOwner && !isPastEvent && (
+									<EventRegistrationForm />
+								)}
+								{isAuth && isPastEvent && <Rating />}
+							</div>
 						</div>
-					</div>
-					{accessRights && <ListOfParticipants />}
-				</>
-			)}
-		</div>
+						{accessRights && <ListOfParticipants />}
+					</>
+				)}
+			</div>
+		</PrivateContent>
 	);
 };

@@ -22,3 +22,5 @@ export * from './list-item-container/ListItemContainer';
 export * from './control-buttons/ControlButtons';
 export * from './delete-buttons/DeleteButtons';
 export * from './loader/Loader';
+export * from './error-page/ErrorPage';
+export * from './private-content/PrivateContent';

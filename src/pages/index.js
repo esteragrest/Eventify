@@ -6,4 +6,6 @@ export * from './events/Events';
 export * from './event-form/EventForm';
 export * from './user-profile/UserProfile';
 export * from './profile-edit/ProfileEdit';
-export * from './users/Users'
+export * from './users/Users';
+export * from './not-found/NotFound';
+export * from './forbidden/Forbidden';

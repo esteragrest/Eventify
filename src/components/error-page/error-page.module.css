@@ -1,0 +1,24 @@
+.error-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+	min-width: 100vh;
+}
+
+.error {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+	width: 35%;
+	gap: 7px;
+}
+
+.error-status {
+	font-size: 210px;
+	color: #c0a2e2;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}

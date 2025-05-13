@@ -6,6 +6,7 @@ import {
 	EventForm,
 	Events,
 	MainPage,
+	NotFound,
 	ProfileEdit,
 	Registration,
 	UserProfile,
@@ -52,7 +53,7 @@ export const App = () => {
 				<Route path="/register" element={<Registration />} />
 				<Route path="/login" element={<Authorization />} />
 				<Route path="/users" element={<Users />} />
-				<Route path="*" element={<div>Error 404</div>} />
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 			<Modal />
 		</>
